@@ -95,7 +95,7 @@ Can work SIMULTANEOUSLY with Track A
   - Store preferredLanguage on signup
 
 **Day 2-3:**
-- [ ] Story 1.4: Authentication Screens in Arabic (2d)
+- [x] Story 1.4: Authentication Screens in Arabic (2d)
   - LoginScreen with Arabic text
   - SignupScreen with Arabic validation
   - ForgotPasswordScreen
@@ -120,7 +120,7 @@ Can work SIMULTANEOUSLY with Track B
 ```
 
 **Day 1:**
-- [ ] Story 1.6: Bottom Tab Navigation RTL (1d)
+- [x] Story 1.6: Bottom Tab Navigation RTL (1d)
   - Create bottom tabs (Home, Browse, History, Profile)
   - Arabic tab labels
   - RTL tab order (right to left)

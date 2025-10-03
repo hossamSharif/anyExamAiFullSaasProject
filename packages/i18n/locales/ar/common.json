@@ -14,5 +14,47 @@
   "back": "رجوع",
   "next": "التالي",
   "submit": "إرسال",
-  "close": "إغلاق"
+  "close": "إغلاق",
+  "navigation": {
+    "home": "الرئيسية",
+    "browse": "استعراض",
+    "history": "السجل",
+    "profile": "الملف الشخصي"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "loginWithGoogle": "تسجيل الدخول بحساب جوجل",
+    "loginWithApple": "تسجيل الدخول بحساب آبل",
+    "orContinueWith": "أو المتابعة باستخدام",
+    "termsAndConditions": "الشروط والأحكام",
+    "privacyPolicy": "سياسة الخصوصية",
+    "agreeToTerms": "بإنشاء حساب، أنت توافق على",
+    "and": "و",
+    "welcomeBack": "مرحباً بعودتك",
+    "createAccount": "إنشاء حساب جديد",
+    "resetPasswordSuccess": "تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني",
+    "errors": {
+      "required": "هذا الحقل مطلوب",
+      "invalidEmail": "البريد الإلكتروني غير صالح",
+      "passwordTooShort": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+      "loginFailed": "فشل تسجيل الدخول. تحقق من بيانات الاعتماد",
+      "signupFailed": "فشل إنشاء الحساب. حاول مرة أخرى",
+      "resetFailed": "فشل إرسال رابط إعادة التعيين",
+      "weakPassword": "كلمة المرور ضعيفة جداً",
+      "emailInUse": "البريد الإلكتروني مستخدم بالفعل"
+    }
+  }
 }

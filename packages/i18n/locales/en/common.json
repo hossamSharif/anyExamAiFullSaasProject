@@ -14,5 +14,47 @@
   "back": "Back",
   "next": "Next",
   "submit": "Submit",
-  "close": "Close"
+  "close": "Close",
+  "navigation": {
+    "home": "Home",
+    "browse": "Browse",
+    "history": "History",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginWithGoogle": "Login with Google",
+    "loginWithApple": "Login with Apple",
+    "orContinueWith": "Or continue with",
+    "termsAndConditions": "Terms and Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "agreeToTerms": "By creating an account, you agree to our",
+    "and": "and",
+    "welcomeBack": "Welcome Back",
+    "createAccount": "Create New Account",
+    "resetPasswordSuccess": "Password reset link sent to your email",
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "loginFailed": "Login failed. Check your credentials",
+      "signupFailed": "Signup failed. Please try again",
+      "resetFailed": "Failed to send reset link",
+      "weakPassword": "Password is too weak",
+      "emailInUse": "Email is already in use"
+    }
+  }
 }
