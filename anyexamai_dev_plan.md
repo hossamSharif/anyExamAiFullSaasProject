@@ -186,7 +186,7 @@ Dependencies: 0.3 (Database schema)
   - Arabic product descriptions
 
 **Day 2-3:**
-- [ ] Story 1.5.2: Stripe Checkout Edge Function (2d)
+- [x] Story 1.5.2: Stripe Checkout Edge Function (2d)
   - Create createCheckoutSession function
   - Customer creation/retrieval
   - Arabic locale configuration
