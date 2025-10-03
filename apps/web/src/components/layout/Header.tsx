@@ -1,6 +1,6 @@
 'use client';
 
-import { YStack, XStack, Heading, ButtonComponent as Button, TextComponent as Text } from '@anyexamai/ui';
+import { YStack, XStack, Heading, ButtonComponent as Button, TextComponent as Text, LanguageSwitcherConnected } from '@anyexamai/ui';
 import { useTranslation } from '@anyexamai/i18n';
 import { useAuth, signOut } from '@anyexamai/api';
 import { useRouter } from 'next/navigation';
@@ -50,6 +50,9 @@ export function Header() {
 
         {/* Navigation - appears on the left in RTL */}
         <XStack gap="$4" alignItems="center">
+          {/* Language Switcher - always visible */}
+          <LanguageSwitcherConnected variant="dropdown" />
+
           {isAuthenticated ? (
             <>
               {/* Desktop Navigation */}

@@ -175,3 +175,7 @@ export {
 
 // Loading screen component
 export { LoadingScreen, type LoadingScreenProps } from './src/LoadingScreen'
+
+// Language switcher component
+export { LanguageSwitcher, type LanguageSwitcherProps } from './src/LanguageSwitcher'
+export { LanguageSwitcherConnected, type LanguageSwitcherConnectedProps } from './src/LanguageSwitcherConnected'
