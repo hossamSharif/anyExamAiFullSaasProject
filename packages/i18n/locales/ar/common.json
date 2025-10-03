@@ -58,5 +58,18 @@
       "authenticationRequired": "يجب تسجيل الدخول للوصول إلى هذه الصفحة",
       "checkingAuth": "جاري التحقق من الجلسة..."
     }
+  },
+  "usage": {
+    "examLimitReached": "لقد وصلت إلى الحد الأقصى من {{limit}} امتحانات شهرياً",
+    "questionLimitReached": "الحد الأقصى هو {{limit}} سؤال لكل امتحان",
+    "documentLimitReached": "لقد وصلت إلى الحد الأقصى من {{limit}} مستندات شهرياً",
+    "limitReached": "لقد وصلت إلى الحد الأقصى",
+    "upgradeRequired": "يرجى الترقية للنسخة الاحترافية للمتابعة",
+    "examsRemaining": "{{count}} امتحانات متبقية",
+    "documentsRemaining": "{{count}} مستندات متبقية",
+    "examsUsed": "{{used}} من {{total}} امتحانات",
+    "documentsUsed": "{{used}} من {{total}} مستندات",
+    "resetDate": "سيتم إعادة التعيين في {{date}}",
+    "unlimited": "غير محدود"
   }
 }

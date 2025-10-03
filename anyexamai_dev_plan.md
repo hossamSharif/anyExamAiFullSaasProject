@@ -212,7 +212,7 @@ Can work SIMULTANEOUSLY with Track A
 ```
 
 **Day 1-2:**
-- [ ] Story 1.5.4: Usage Tracking System (2d)
+- [x] Story 1.5.4: Usage Tracking System (2d)
   - useUsageTracking hook
   - Track exams, questions, documents
   - Monthly reset logic

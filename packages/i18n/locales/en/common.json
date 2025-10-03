@@ -58,5 +58,18 @@
       "authenticationRequired": "Please log in to access this page",
       "checkingAuth": "Checking authentication..."
     }
+  },
+  "usage": {
+    "examLimitReached": "You've reached the limit of {{limit}} exams per month",
+    "questionLimitReached": "Maximum {{limit}} questions per exam",
+    "documentLimitReached": "You've reached the limit of {{limit}} documents per month",
+    "limitReached": "You've reached your limit",
+    "upgradeRequired": "Please upgrade to Pro to continue",
+    "examsRemaining": "{{count}} exams remaining",
+    "documentsRemaining": "{{count}} documents remaining",
+    "examsUsed": "{{used}} of {{total}} exams",
+    "documentsUsed": "{{used}} of {{total}} documents",
+    "resetDate": "Resets on {{date}}",
+    "unlimited": "Unlimited"
   }
 }
