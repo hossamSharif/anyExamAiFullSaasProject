@@ -93,5 +93,38 @@
       "advancedAnalytics": "Advanced analytics",
       "prioritySupport": "Priority support"
     }
+  },
+  "paywall": {
+    "examLimit": {
+      "title": "Exam Limit Reached",
+      "description": "You've used all your free exams this month. Upgrade to Pro to continue."
+    },
+    "documentLimit": {
+      "title": "Document Upload Unavailable",
+      "description": "Document upload is only available on Pro. Upgrade to access this feature."
+    },
+    "questionLimit": {
+      "title": "Question Limit",
+      "description": "Free tier is limited to 10 questions. Upgrade to create longer exams."
+    },
+    "default": {
+      "title": "Upgrade Required",
+      "description": "Upgrade to Pro to access this feature."
+    },
+    "usageStats": "Your Current Usage",
+    "proFeatures": "Pro Features",
+    "features": {
+      "unlimitedExams": "50 exams per month",
+      "moreQuestions": "50 questions per exam",
+      "documentUpload": "Document upload (20/month)",
+      "advancedAnalytics": "Advanced analytics",
+      "prioritySupport": "Priority support"
+    },
+    "justFor": "Just",
+    "sarPerMonth": "SAR/month",
+    "upgradeNow": "Upgrade to Pro",
+    "maybeLater": "Maybe Later",
+    "processing": "Processing...",
+    "mobileNote": "Payment page will open in browser"
   }
 }

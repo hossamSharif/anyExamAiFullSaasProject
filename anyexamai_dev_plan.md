@@ -237,7 +237,7 @@ Some sequential work required
 ```
 
 **Day 1-2:**
-- [ ] Story 1.5.6: Paywall Modal Arabic (2d)
+- [x] Story 1.5.6: Paywall Modal Arabic (2d)
   - PaywallModal component in Arabic
   - Usage stats display: "٥/٥ امتحانات"
   - "الترقية للنسخة الاحترافية" button

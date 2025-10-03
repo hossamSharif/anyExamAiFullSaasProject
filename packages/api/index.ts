@@ -5,5 +5,6 @@ export * from './src/hooks/useRequireAuth';
 export * from './src/hooks/useLanguage';
 export * from './src/hooks/useSubscription';
 export * from './src/hooks/useUsageTracking';
+export * from './src/hooks/usePaywall';
 export * from './src/validation/auth';
 export * from './src/query';
