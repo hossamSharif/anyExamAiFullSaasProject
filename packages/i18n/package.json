@@ -4,7 +4,20 @@
   "private": true,
   "main": "index.ts",
   "types": "index.ts",
+  "react-native": {
+    "./config": "./config.native.ts"
+  },
   "scripts": {
     "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "i18next": "^25.5.3",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "react-i18next": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.0.0"
   }
 }

@@ -1,0 +1,18 @@
+{
+  "welcome": "مرحباً بك",
+  "app_name": "anyExamAi",
+  "loading": "جاري التحميل...",
+  "error": "خطأ",
+  "success": "نجح",
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "save": "حفظ",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "search": "بحث",
+  "retry": "إعادة المحاولة",
+  "back": "رجوع",
+  "next": "التالي",
+  "submit": "إرسال",
+  "close": "إغلاق"
+}
