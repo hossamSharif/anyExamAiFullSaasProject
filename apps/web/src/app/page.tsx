@@ -1,115 +1,185 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { YStack, XStack, Heading, Paragraph, Button, Text, useTheme } from '@anyexamai/ui';
+import { YStack, XStack, Heading, Paragraph, Button, Text, Card, CardHeader, CardTitle, CardContent, CardDescription } from '@anyexamai/ui';
+import { MainLayout } from '../components/layout';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const { t, i18n } = useTranslation('common');
-  const theme = useTheme();
+  const router = useRouter();
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'ar' ? 'en' : 'ar';
-    i18n.changeLanguage(newLang);
+  const handleGetStarted = () => {
+    router.push('/signup');
+  };
+
+  const handleLogin = () => {
+    router.push('/login');
   };
 
   return (
-    <YStack
-      minHeight="100vh"
-      padding="$8"
-      alignItems="center"
-      justifyContent="center"
-      gap="$8"
-      backgroundColor="$background"
-    >
-      {/* Main heading with Cairo font */}
-      <Heading
-        fontFamily="$heading"
-        fontSize="$10"
-        fontWeight="700"
-        textAlign="center"
-        color="$color"
+    <MainLayout>
+      <YStack
+        flex={1}
+        gap="$8"
+        width="100%"
       >
-        {t('welcome')}
-      </Heading>
-
-      {/* Description with Tajawal font */}
-      <Paragraph
-        fontFamily="$body"
-        fontSize="$6"
-        maxWidth={600}
-        textAlign="center"
-        color="$colorHover"
-        lineHeight="$6"
-      >
-        {t('description')}
-      </Paragraph>
-
-      <YStack gap="$4" alignItems="center">
-        {/* Language toggle button */}
-        <Button
-          backgroundColor="$primary"
-          color="white"
-          paddingHorizontal="$6"
-          paddingVertical="$4"
-          borderRadius="$4"
-          onPress={toggleLanguage}
-          hoverStyle={{ backgroundColor: '$primaryHover' }}
-          pressStyle={{ backgroundColor: '$primaryHover', scale: 0.98 }}
-        >
-          <Text fontFamily="$heading" fontWeight="600" color="white" fontSize="$5">
-            {i18n.language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
-          </Text>
-        </Button>
-
-        {/* RTL Test section */}
-        <YStack
-          marginTop="$8"
-          padding="$6"
-          backgroundColor="$backgroundHover"
-          borderRadius="$4"
-          maxWidth={600}
-          gap="$4"
-        >
-          <Heading fontFamily="$heading" fontSize="$7" fontWeight="600" color="$color">
-            RTL Test / اختبار RTL
+        {/* Hero Section */}
+        <YStack gap="$6" alignItems="center" textAlign="center" paddingTop="$12">
+          <Heading
+            fontFamily="$heading"
+            fontSize={['$9', '$10', '$11']}
+            fontWeight="800"
+            lineHeight="$10"
+            color="$color"
+            textAlign="center"
+          >
+            إنشاء امتحانات ذكية
+            <br />
+            باستخدام الذكاء الاصطناعي
           </Heading>
-          <YStack gap="$2" paddingStart="$8">
-            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
-              • هذا نص عربي لاختبار التخطيط من اليمين إلى اليسار
-            </Text>
-            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
-              • This is English text to test left-to-right layout
-            </Text>
-            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
-              • الأرقام: ١٢٣٤٥٦٧٨٩٠
-            </Text>
-            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
-              • Numbers: 1234567890
-            </Text>
-          </YStack>
+
+          <Paragraph
+            fontFamily="$body"
+            fontSize={['$5', '$6', '$7']}
+            color="$colorHover"
+            maxWidth={700}
+            textAlign="center"
+            lineHeight="$7"
+          >
+            منصة متقدمة لإنشاء امتحانات مخصصة من مستنداتك أو من محتوى تعليمي منسق باللغة العربية
+          </Paragraph>
+
+          <XStack gap="$4" marginTop="$4">
+            <Button
+              backgroundColor="$primary"
+              color="white"
+              paddingHorizontal="$6"
+              paddingVertical="$4"
+              borderRadius="$4"
+              onPress={handleGetStarted}
+              hoverStyle={{ backgroundColor: '$primaryHover' }}
+              pressStyle={{ backgroundColor: '$primaryHover', scale: 0.98 }}
+            >
+              <Text fontFamily="$heading" fontWeight="600" color="white" fontSize="$5">
+                ابدأ الآن مجاناً
+              </Text>
+            </Button>
+            <Button
+              backgroundColor="transparent"
+              borderWidth={1}
+              borderColor="$borderColor"
+              paddingHorizontal="$6"
+              paddingVertical="$4"
+              borderRadius="$4"
+              onPress={handleLogin}
+              hoverStyle={{ backgroundColor: '$backgroundHover' }}
+              pressStyle={{ backgroundColor: '$backgroundHover', scale: 0.98 }}
+            >
+              <Text fontFamily="$heading" fontWeight="600" color="$color" fontSize="$5">
+                تسجيل الدخول
+              </Text>
+            </Button>
+          </XStack>
         </YStack>
 
-        {/* Status section */}
+        {/* Features Section */}
+        <YStack gap="$6" marginTop="$12">
+          <Heading
+            fontFamily="$heading"
+            fontSize={['$7', '$8', '$9']}
+            fontWeight="700"
+            textAlign="center"
+            color="$color"
+          >
+            لماذا anyExamAi؟
+          </Heading>
+
+          <XStack
+            gap="$6"
+            flexDirection={['column', 'column', 'row']}
+            marginTop="$6"
+          >
+            <Card flex={1}>
+              <CardHeader>
+                <CardTitle>سريع وذكي</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  إنشاء امتحانات كاملة في أقل من 30 ثانية باستخدام أحدث تقنيات الذكاء الاصطناعي
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card flex={1}>
+              <CardHeader>
+                <CardTitle>محتوى عربي</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  مكتبة ضخمة من المحتوى التعليمي المنسق باللغة العربية في مختلف المواد
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card flex={1}>
+              <CardHeader>
+                <CardTitle>مستنداتك الخاصة</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  ارفع ملفات PDF أو DOCX الخاصة بك واحصل على امتحانات مخصصة من محتواك
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </XStack>
+        </YStack>
+
+        {/* CTA Section */}
         <YStack
-          marginTop="$4"
-          padding="$4"
-          backgroundColor="$backgroundHover"
-          borderRadius="$4"
+          gap="$6"
           alignItems="center"
-          gap="$2"
+          textAlign="center"
+          marginTop="$12"
+          paddingVertical="$12"
+          backgroundColor="$backgroundHover"
+          borderRadius="$6"
+          paddingHorizontal="$6"
         >
-          <Text fontSize="$3" color="$color">
-            Current Language: <Text fontWeight="700">{i18n.language}</Text> | Direction:{' '}
-            <Text fontWeight="700">{i18n.language === 'ar' ? 'RTL' : 'LTR'}</Text>
-          </Text>
-          <Text fontSize="$3" color="$success">
-            Tamagui Configured ✓
-          </Text>
-          <Text fontSize="$3" color="$success">
-            Solito Navigation Connected ✓
-          </Text>
+          <Heading
+            fontFamily="$heading"
+            fontSize={['$7', '$8', '$9']}
+            fontWeight="700"
+            color="$color"
+          >
+            جاهز للبدء؟
+          </Heading>
+
+          <Paragraph
+            fontFamily="$body"
+            fontSize={['$4', '$5', '$6']}
+            color="$colorHover"
+            maxWidth={600}
+          >
+            ابدأ بإنشاء امتحاناتك الذكية اليوم. 5 امتحانات مجانية شهرياً، بدون بطاقة ائتمان.
+          </Paragraph>
+
+          <Button
+            backgroundColor="$primary"
+            color="white"
+            paddingHorizontal="$6"
+            paddingVertical="$4"
+            borderRadius="$4"
+            onPress={handleGetStarted}
+            hoverStyle={{ backgroundColor: '$primaryHover' }}
+            pressStyle={{ backgroundColor: '$primaryHover', scale: 0.98 }}
+          >
+            <Text fontFamily="$heading" fontWeight="600" color="white" fontSize="$5">
+              إنشاء حساب مجاني
+            </Text>
+          </Button>
         </YStack>
       </YStack>
-    </YStack>
+    </MainLayout>
   );
 }
