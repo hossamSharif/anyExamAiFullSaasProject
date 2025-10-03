@@ -4,6 +4,7 @@ import './globals.css';
 import { RTLProvider } from './providers/RTLProvider';
 import { SolitoProvider } from './providers/SolitoProvider';
 import { TamaguiProvider } from '@anyexamai/ui';
+import { QueryProvider } from '@anyexamai/api';
 
 // Load Cairo font for headings
 const cairo = Cairo({
@@ -34,11 +35,13 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} ${tajawal.variable}`}>
       <body>
-        <TamaguiProvider>
-          <SolitoProvider>
-            <RTLProvider>{children}</RTLProvider>
-          </SolitoProvider>
-        </TamaguiProvider>
+        <QueryProvider>
+          <TamaguiProvider>
+            <SolitoProvider>
+              <RTLProvider>{children}</RTLProvider>
+            </SolitoProvider>
+          </TamaguiProvider>
+        </QueryProvider>
       </body>
     </html>
   );

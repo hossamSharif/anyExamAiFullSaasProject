@@ -27,7 +27,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationProvider } from './navigation/NavigationProvider';
 import { TamaguiProvider } from '@anyexamai/ui';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@anyexamai/api';
+import { useAuth, QueryProvider } from '@anyexamai/api';
 import HomeScreen from './screens/HomeScreen';
 import BrowseScreen from './screens/BrowseScreen';
 import HistoryScreen from './screens/HistoryScreen';
@@ -155,28 +155,30 @@ export default function App() {
   }
 
   return (
-    <TamaguiProvider>
-      <NavigationProvider>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            animation: 'slide_from_right',
-            // RTL animation support
-            ...(I18nManager.isRTL && {
-              animation: 'slide_from_left',
-            }),
-          }}
-        >
-          {/* Auth Screens */}
-          <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="signup" component={SignupScreen} />
-          <Stack.Screen name="forgot-password" component={ForgotPasswordScreen} />
+    <QueryProvider>
+      <TamaguiProvider>
+        <NavigationProvider>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              animation: 'slide_from_right',
+              // RTL animation support
+              ...(I18nManager.isRTL && {
+                animation: 'slide_from_left',
+              }),
+            }}
+          >
+            {/* Auth Screens */}
+            <Stack.Screen name="login" component={LoginScreen} />
+            <Stack.Screen name="signup" component={SignupScreen} />
+            <Stack.Screen name="forgot-password" component={ForgotPasswordScreen} />
 
-          {/* Main App (Protected with Bottom Tabs) */}
-          <Stack.Screen name="index" component={TabNavigator} />
-        </Stack.Navigator>
-        <StatusBar style="auto" />
-      </NavigationProvider>
-    </TamaguiProvider>
+            {/* Main App (Protected with Bottom Tabs) */}
+            <Stack.Screen name="index" component={TabNavigator} />
+          </Stack.Navigator>
+          <StatusBar style="auto" />
+        </NavigationProvider>
+      </TamaguiProvider>
+    </QueryProvider>
   );
 }
