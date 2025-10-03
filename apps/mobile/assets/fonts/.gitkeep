@@ -1,0 +1,12 @@
+# Arabic Font Files
+# Download these fonts and place them in this directory:
+#
+# Cairo Font:
+# - https://fonts.google.com/specimen/Cairo
+# - Download: Cairo-Regular.ttf, Cairo-Bold.ttf
+#
+# Tajawal Font:
+# - https://fonts.google.com/specimen/Tajawal
+# - Download: Tajawal-Regular.ttf, Tajawal-Bold.ttf
+#
+# These fonts are required for proper Arabic text rendering with RTL support.
