@@ -1,5 +1,6 @@
 import { config as configDefault } from '@tamagui/config/v4'
 import { createTamagui, createTokens } from '@tamagui/core'
+import { createAnimations } from '@tamagui/animations-css'
 import { fonts } from './fonts'
 
 // RTL-aware spacing tokens
@@ -60,11 +61,40 @@ const tokens = createTokens({
   },
 })
 
+// Create animations for Loading components
+const animations = createAnimations({
+  // Spinner animation - continuous rotation
+  spin: {
+    type: 'timing',
+    duration: 1000,
+    loop: true,
+    from: {
+      transform: [{ rotate: '0deg' }],
+    },
+    to: {
+      transform: [{ rotate: '360deg' }],
+    },
+  },
+  // Skeleton pulse animation - breathing effect
+  pulse: {
+    type: 'timing',
+    duration: 2000,
+    loop: true,
+    from: {
+      opacity: 0.6,
+    },
+    to: {
+      opacity: 1,
+    },
+  },
+})
+
 // Create Tamagui configuration
 const config = createTamagui({
   ...configDefault,
   tokens,
   fonts,
+  animations,
   themes: {
     // Light theme - optimized for Arabic readability
     light: {

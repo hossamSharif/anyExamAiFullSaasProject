@@ -163,3 +163,12 @@ export {
   type LoadingTextProps,
   type SkeletonProps,
 } from './components/Loading'
+
+// Icon components
+export {
+  Icon,
+  IconPresets,
+  type IconProps,
+  type IconName,
+  type LucideIconName,
+} from './components/Icon'
