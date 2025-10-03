@@ -9,3 +9,6 @@
 export { routes } from './routes';
 export type { Routes } from './routes';
 export { Link } from './link';
+
+// Re-export Solito hooks for unified navigation
+export { useRouter } from 'solito/router';

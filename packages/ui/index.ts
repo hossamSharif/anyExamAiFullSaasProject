@@ -172,3 +172,6 @@ export {
   type IconName,
   type LucideIconName,
 } from './components/Icon'
+
+// Loading screen component
+export { LoadingScreen, type LoadingScreenProps } from './src/LoadingScreen'

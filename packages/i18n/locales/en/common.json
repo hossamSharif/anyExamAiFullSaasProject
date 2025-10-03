@@ -54,7 +54,9 @@
       "signupFailed": "Signup failed. Please try again",
       "resetFailed": "Failed to send reset link",
       "weakPassword": "Password is too weak",
-      "emailInUse": "Email is already in use"
+      "emailInUse": "Email is already in use",
+      "authenticationRequired": "Please log in to access this page",
+      "checkingAuth": "Checking authentication..."
     }
   }
 }

@@ -10,10 +10,20 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     prefixes: [prefix, 'anyexamai://'],
     config: {
       screens: {
-        Home: '',
-        Browse: 'browse',
-        History: 'history',
-        Profile: 'profile',
+        // Auth screens
+        login: 'login',
+        signup: 'signup',
+        'forgot-password': 'forgot-password',
+        // Main app with tabs
+        index: {
+          path: '',
+          screens: {
+            Home: '',
+            Browse: 'browse',
+            History: 'history',
+            Profile: 'profile',
+          },
+        },
       },
     },
   };
