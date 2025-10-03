@@ -126,5 +126,33 @@
     "maybeLater": "Maybe Later",
     "processing": "Processing...",
     "mobileNote": "Payment page will open in browser"
+  },
+  "checkout": {
+    "title": "Complete Subscription",
+    "subtitle": "Upgrade to Pro to access all features",
+    "selectedPlan": "Selected Plan",
+    "included": "Included Features",
+    "paymentInfo": "Payment Information",
+    "securePayment": "Payment is secure and encrypted via Stripe. We do not store your credit card information.",
+    "cancellationPolicy": "You can cancel your subscription anytime from account settings.",
+    "proceedToPayment": "Proceed to Payment",
+    "processing": "Processing...",
+    "mobileNote": "After payment, you'll be automatically redirected to the app."
+  },
+  "paymentSuccess": {
+    "title": "Subscription Successful! 🎉",
+    "subtitle": "Thank you for subscribing to Pro. You can now enjoy all premium features.",
+    "unlockedFeatures": "Unlocked Features",
+    "feature1": "50 exams per month",
+    "feature2": "50 questions per exam",
+    "feature3": "Document upload (20/month)",
+    "feature4": "Advanced analytics",
+    "feature5": "Priority support",
+    "receiptInfo": "A payment receipt will be sent to your email shortly.",
+    "returnToApp": "Return to App",
+    "goToHome": "Go to Home",
+    "autoRedirect": "Auto-redirect in",
+    "seconds": "seconds",
+    "mobileNote": "If the app doesn't open automatically, click the button above."
   }
 }

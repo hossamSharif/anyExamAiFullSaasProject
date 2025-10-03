@@ -245,7 +245,7 @@ Some sequential work required
   - Mobile browser integration
 
 **Day 3:**
-- [ ] Story 1.5.7: Web Checkout Page Arabic (1.5d)
+- [x] Story 1.5.7: Web Checkout Page Arabic (1.5d)
   - Checkout page at /checkout
   - Arabic UI with RTL
   - Token verification
