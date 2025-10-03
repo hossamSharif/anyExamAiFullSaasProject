@@ -178,7 +178,7 @@ Dependencies: 0.3 (Database schema)
 ```
 
 **Day 1:**
-- [ ] Story 1.5.1: Stripe Account & Product Setup (1d)
+- [x] Story 1.5.1: Stripe Account & Product Setup (1d)
   - Create Stripe account
   - Setup product: "anyExamAi Pro"
   - Create price: 37 SAR/month
