@@ -42,7 +42,7 @@ Day 5:
 - [x] 0.4: i18next configured with Arabic default
 - [x] 0.5: Expo project with RTL and Arabic fonts
 - [x] 0.6: Next.js project with RTL support
-- [ ] 0.7: Solito connecting mobile and web
+- [x] 0.7: Solito connecting mobile and web
 
 **Dependencies for Phase 1:** All Phase 0 stories MUST be complete
 

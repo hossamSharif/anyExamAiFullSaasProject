@@ -86,6 +86,9 @@ export default function Home() {
             Current Language: <strong>{i18n.language}</strong> | Direction:{' '}
             <strong>{i18n.language === 'ar' ? 'RTL' : 'LTR'}</strong>
           </p>
+          <p style={{ fontSize: '0.875rem', color: '#4CAF50', marginTop: '0.5rem' }}>
+            Solito Navigation Connected ✓
+          </p>
         </div>
       </div>
     </div>

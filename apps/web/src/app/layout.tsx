@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cairo } from 'next/font/google';
 import './globals.css';
 import { RTLProvider } from './providers/RTLProvider';
+import { SolitoProvider } from './providers/SolitoProvider';
 
 // Load Cairo font for Arabic support
 const cairo = Cairo({
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <body>
-        <RTLProvider>{children}</RTLProvider>
+        <SolitoProvider>
+          <RTLProvider>{children}</RTLProvider>
+        </SolitoProvider>
       </body>
     </html>
   );

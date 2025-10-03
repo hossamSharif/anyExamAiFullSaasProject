@@ -1,8 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, I18nManager, Platform } from 'react-native';
+import { I18nManager } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationProvider } from './navigation/NavigationProvider';
+import HomeScreen from './screens/HomeScreen';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -10,6 +14,8 @@ SplashScreen.preventAutoHideAsync();
 // Enable RTL layout
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -46,52 +52,18 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleArabic}>مرحباً بك في anyExamAi</Text>
-      <Text style={styles.subtitleArabic}>منصة الامتحانات الذكية</Text>
-      <Text style={styles.bodyArabic}>
-        اختبر معرفتك باللغة العربية مع دعم كامل للكتابة من اليمين إلى اليسار
-      </Text>
-      <Text style={styles.englishText}>RTL Support Enabled ✓</Text>
+    <NavigationProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          // RTL gesture configuration
+          gestureDirection: 'horizontal-inverted',
+          animation: 'slide_from_left', // Reversed for RTL
+        }}
+      >
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </View>
+    </NavigationProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    direction: 'rtl',
-  },
-  titleArabic: {
-    fontFamily: 'Cairo-Bold',
-    fontSize: 28,
-    marginBottom: 10,
-    textAlign: 'center',
-    writingDirection: 'rtl',
-  },
-  subtitleArabic: {
-    fontFamily: 'Cairo-Regular',
-    fontSize: 20,
-    marginBottom: 20,
-    textAlign: 'center',
-    writingDirection: 'rtl',
-  },
-  bodyArabic: {
-    fontFamily: 'Tajawal-Regular',
-    fontSize: 16,
-    marginBottom: 30,
-    textAlign: 'center',
-    writingDirection: 'rtl',
-    lineHeight: 24,
-  },
-  englishText: {
-    fontFamily: Platform.OS === 'ios' ? 'System' : 'Roboto',
-    fontSize: 14,
-    color: '#4CAF50',
-  },
-});
