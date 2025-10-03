@@ -87,7 +87,7 @@ Can work SIMULTANEOUSLY with Track A
 ```
 
 **Day 1:**
-- [ ] Story 1.3: Supabase Auth Integration (1d)
+- [x] Story 1.3: Supabase Auth Integration (1d)
   - Initialize Supabase client in packages/api
   - Setup auth methods (signUp, signIn, signOut)
   - Session management with secure storage
