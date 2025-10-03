@@ -1,0 +1,12 @@
+{
+  "name": "@anyexamai/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo 'Mobile dev - to be configured with Expo'",
+    "build": "echo 'Mobile build - to be configured'",
+    "lint": "echo 'Mobile lint - to be configured'",
+    "type-check": "echo 'Mobile type-check - to be configured'"
+  }
+}

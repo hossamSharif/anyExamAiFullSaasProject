@@ -1,0 +1,11 @@
+{
+  "name": "@anyexamai/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Web dev - to be configured with Next.js'",
+    "build": "echo 'Web build - to be configured'",
+    "lint": "echo 'Web lint - to be configured'",
+    "type-check": "echo 'Web type-check - to be configured'"
+  }
+}
