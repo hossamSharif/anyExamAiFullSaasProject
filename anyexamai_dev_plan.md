@@ -103,7 +103,7 @@ Can work SIMULTANEOUSLY with Track A
   - RTL text input handling
 
 **Day 4:**
-- [ ] Story 1.5: Protected Routes & Guards (1d)
+- [x] Story 1.5: Protected Routes & Guards (1d)
   - useRequireAuth hook
   - Automatic redirect logic
   - Deep link auth checks
@@ -127,7 +127,7 @@ Can work SIMULTANEOUSLY with Track B
   - Platform-adaptive styling
 
 **Day 2:**
-- [ ] Story 1.7: Web Layout & Header RTL (1d)
+- [x] Story 1.7: Web Layout & Header RTL (1d)
   - Header with RTL layout
   - User menu dropdown
   - Footer component
@@ -144,14 +144,14 @@ Can work SIMULTANEOUSLY with Track B and C
 ```
 
 **Day 1:**
-- [ ] Story 1.8: Language Switcher Component (1d)
+- [x] Story 1.8: Language Switcher Component (1d)
   - Dropdown with العربية/English
   - Persist to database
   - Trigger RTL layout change
   - Works on mobile and web
 
 **Day 2:**
-- [ ] Story 1.9: TanStack Query Setup (1d)
+- [x] Story 1.9: TanStack Query Setup (1d)
   - Configure QueryClient
   - Create custom hooks (useProfile, useAuth, etc.)
   - Setup caching strategy
