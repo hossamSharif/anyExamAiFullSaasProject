@@ -67,7 +67,7 @@ Dependencies: 0.5, 0.6 (Expo and Next.js setup)
   - Test with Arabic sample text
 
 **Day 2-3:**
-- [ ] Story 1.2: Base UI Components Library (2d)
+- [x] Story 1.2: Base UI Components Library (2d)
   - Button with variants (primary, secondary, outline)
   - Input with RTL text support
   - Card components

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { I18nManager } from 'react-native';
-import { useEffect, useState } from 'react';
+import { I18nManager, Platform } from 'react-native';
+import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import {
@@ -22,10 +22,14 @@ import {
   Tajawal_800ExtraBold,
   Tajawal_900Black,
 } from '@expo-google-fonts/tajawal';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationProvider } from './navigation/NavigationProvider';
 import { TamaguiProvider } from '@anyexamai/ui';
+import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './screens/HomeScreen';
+import BrowseScreen from './screens/BrowseScreen';
+import HistoryScreen from './screens/HistoryScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -34,7 +38,7 @@ SplashScreen.preventAutoHideAsync();
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   // Load Arabic fonts
@@ -69,16 +73,78 @@ export default function App() {
   return (
     <TamaguiProvider>
       <NavigationProvider>
-        <Stack.Navigator
+        <Tab.Navigator
           screenOptions={{
             headerShown: false,
-            // RTL gesture configuration
-            gestureDirection: 'horizontal-inverted',
-            animation: 'slide_from_left', // Reversed for RTL
+            tabBarStyle: {
+              // RTL tab order - tabs will appear from right to left
+              flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+            },
+            tabBarLabelStyle: {
+              fontFamily: 'Cairo_600SemiBold',
+              fontSize: 12,
+            },
+            tabBarActiveTintColor: '#007AFF',
+            tabBarInactiveTintColor: '#8E8E93',
+            // Platform-specific styling
+            ...(Platform.OS === 'ios' && {
+              tabBarStyle: {
+                flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+                backgroundColor: '#F2F2F7',
+                borderTopColor: '#C6C6C8',
+              },
+            }),
+            ...(Platform.OS === 'android' && {
+              tabBarStyle: {
+                flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+                backgroundColor: '#FFFFFF',
+                elevation: 8,
+              },
+            }),
           }}
         >
-          <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
+          {/* RTL order: Profile -> History -> Browse -> Home (displayed right to left) */}
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarLabel: 'الملف الشخصي',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="person" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="History"
+            component={HistoryScreen}
+            options={{
+              tabBarLabel: 'السجل',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="time" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Browse"
+            component={BrowseScreen}
+            options={{
+              tabBarLabel: 'استعراض',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="search" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarLabel: 'الرئيسية',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color={color} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
         <StatusBar style="auto" />
       </NavigationProvider>
     </TamaguiProvider>

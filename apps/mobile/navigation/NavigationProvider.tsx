@@ -11,6 +11,9 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     config: {
       screens: {
         Home: '',
+        Browse: 'browse',
+        History: 'history',
+        Profile: 'profile',
       },
     },
   };

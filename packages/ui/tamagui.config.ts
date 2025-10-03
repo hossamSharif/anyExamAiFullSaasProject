@@ -29,12 +29,12 @@ const tokens = createTokens({
     $14: 56,
     $16: 64,
     $20: 80,
-    // Negative spacing for RTL layouts
-    $-0_5: -2,
-    $-1: -4,
-    $-2: -8,
-    $-3: -12,
-    $-4: -16,
+    // Negative spacing for RTL layouts (using 'n' prefix for negative)
+    '$-0.5': -2,
+    '$-1': -4,
+    '$-2': -8,
+    '$-3': -12,
+    '$-4': -16,
   },
   // Colors optimized for Arabic text readability
   color: {
