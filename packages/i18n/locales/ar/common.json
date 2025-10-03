@@ -71,5 +71,27 @@
     "documentsUsed": "{{used}} من {{total}} مستندات",
     "resetDate": "سيتم إعادة التعيين في {{date}}",
     "unlimited": "غير محدود"
+  },
+  "subscription": {
+    "free": "مجاني",
+    "pro": "احترافي",
+    "currentPlan": "الخطة الحالية",
+    "monthly": "شهرياً",
+    "current": "الخطة الحالية",
+    "upgrade": "ترقية للنسخة الاحترافية",
+    "selectPlan": "اختر الخطة"
+  },
+  "pricing": {
+    "title": "اختر الخطة المناسبة لك",
+    "subtitle": "ابدأ مجاناً أو احصل على المزيد من الميزات مع النسخة الاحترافية",
+    "comparison": "مقارنة الميزات",
+    "feature": "الميزة",
+    "features": {
+      "examsPerMonth": "امتحانات شهرياً",
+      "questionsPerExam": "أسئلة لكل امتحان",
+      "documentUpload": "رفع المستندات",
+      "advancedAnalytics": "تحليلات متقدمة",
+      "prioritySupport": "دعم ذو أولوية"
+    }
   }
 }

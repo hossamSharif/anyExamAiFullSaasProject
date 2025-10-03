@@ -220,7 +220,7 @@ Can work SIMULTANEOUSLY with Track A
   - Arabic limit messages
 
 **Day 3-4:**
-- [ ] Story 1.5.5: Pricing Page Arabic (2d)
+- [x] Story 1.5.5: Pricing Page Arabic (2d)
   - PricingCard component in Arabic
   - Feature comparison (مجاني vs احترافي)
   - Price display: "٣٧ ريال/شهرياً"

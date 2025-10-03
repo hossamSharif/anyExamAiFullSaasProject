@@ -71,5 +71,27 @@
     "documentsUsed": "{{used}} of {{total}} documents",
     "resetDate": "Resets on {{date}}",
     "unlimited": "Unlimited"
+  },
+  "subscription": {
+    "free": "Free",
+    "pro": "Pro",
+    "currentPlan": "Current Plan",
+    "monthly": "monthly",
+    "current": "Current Plan",
+    "upgrade": "Upgrade to Pro",
+    "selectPlan": "Select Plan"
+  },
+  "pricing": {
+    "title": "Choose the Right Plan for You",
+    "subtitle": "Start free or get more features with Pro",
+    "comparison": "Feature Comparison",
+    "feature": "Feature",
+    "features": {
+      "examsPerMonth": "Exams per month",
+      "questionsPerExam": "Questions per exam",
+      "documentUpload": "Document upload",
+      "advancedAnalytics": "Advanced analytics",
+      "prioritySupport": "Priority support"
+    }
   }
 }
