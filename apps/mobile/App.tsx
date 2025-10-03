@@ -1,11 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { I18nManager } from 'react-native';
 import { useEffect, useState } from 'react';
-import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import {
+  Cairo_200ExtraLight,
+  Cairo_300Light,
+  Cairo_400Regular,
+  Cairo_500Medium,
+  Cairo_600SemiBold,
+  Cairo_700Bold,
+  Cairo_800ExtraBold,
+  Cairo_900Black,
+} from '@expo-google-fonts/cairo';
+import {
+  Tajawal_200ExtraLight,
+  Tajawal_300Light,
+  Tajawal_400Regular,
+  Tajawal_500Medium,
+  Tajawal_700Bold,
+  Tajawal_800ExtraBold,
+  Tajawal_900Black,
+} from '@expo-google-fonts/tajawal';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationProvider } from './navigation/NavigationProvider';
+import { TamaguiProvider } from '@anyexamai/ui';
 import HomeScreen from './screens/HomeScreen';
 
 // Keep the splash screen visible while we fetch resources
@@ -18,52 +37,50 @@ I18nManager.forceRTL(true);
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
+  // Load Arabic fonts
+  const [fontsLoaded] = useFonts({
+    Cairo_200ExtraLight,
+    Cairo_300Light,
+    Cairo_400Regular,
+    Cairo_500Medium,
+    Cairo_600SemiBold,
+    Cairo_700Bold,
+    Cairo_800ExtraBold,
+    Cairo_900Black,
+    Tajawal_200ExtraLight,
+    Tajawal_300Light,
+    Tajawal_400Regular,
+    Tajawal_500Medium,
+    Tajawal_700Bold,
+    Tajawal_800ExtraBold,
+    Tajawal_900Black,
+  });
 
   useEffect(() => {
-    async function prepare() {
-      try {
-        // Load fonts
-        await Font.loadAsync({
-          'Cairo-Regular': require('./assets/fonts/Cairo-Regular.ttf'),
-          'Cairo-Bold': require('./assets/fonts/Cairo-Bold.ttf'),
-          'Tajawal-Regular': require('./assets/fonts/Tajawal-Regular.ttf'),
-          'Tajawal-Bold': require('./assets/fonts/Tajawal-Bold.ttf'),
-        });
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        // Tell the application to render
-        setAppIsReady(true);
-      }
-    }
-
-    prepare();
-  }, []);
-
-  useEffect(() => {
-    if (appIsReady) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [appIsReady]);
+  }, [fontsLoaded]);
 
-  if (!appIsReady) {
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <NavigationProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          // RTL gesture configuration
-          gestureDirection: 'horizontal-inverted',
-          animation: 'slide_from_left', // Reversed for RTL
-        }}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationProvider>
+    <TamaguiProvider>
+      <NavigationProvider>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            // RTL gesture configuration
+            gestureDirection: 'horizontal-inverted',
+            animation: 'slide_from_left', // Reversed for RTL
+          }}
+        >
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </NavigationProvider>
+    </TamaguiProvider>
   );
 }

@@ -1,9 +1,11 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { YStack, XStack, Heading, Paragraph, Button, Text, useTheme } from '@anyexamai/ui';
 
 export default function Home() {
   const { t, i18n } = useTranslation('common');
+  const theme = useTheme();
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'ar' ? 'en' : 'ar';
@@ -11,86 +13,103 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        padding: '2rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2rem',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
+    <YStack
+      minHeight="100vh"
+      padding="$8"
+      alignItems="center"
+      justifyContent="center"
+      gap="$8"
+      backgroundColor="$background"
     >
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
-        {t('welcome')}
-      </h1>
-
-      <p style={{ fontSize: '1.25rem', maxWidth: '600px', textAlign: 'center' }}>
-        {t('description')}
-      </p>
-
-      <div
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+      {/* Main heading with Cairo font */}
+      <Heading
+        fontFamily="$heading"
+        fontSize="$10"
+        fontWeight="700"
+        textAlign="center"
+        color="$color"
       >
-        <button
-          onClick={toggleLanguage}
-          style={{
-            padding: '0.75rem 1.5rem',
-            fontSize: '1rem',
-            backgroundColor: '#0070f3',
-            color: 'white',
-            border: 'none',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-          }}
-        >
-          {i18n.language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
-        </button>
+        {t('welcome')}
+      </Heading>
 
-        <div
-          style={{
-            marginTop: '2rem',
-            padding: '1.5rem',
-            backgroundColor: '#f5f5f5',
-            borderRadius: '0.5rem',
-            maxWidth: '600px',
-          }}
+      {/* Description with Tajawal font */}
+      <Paragraph
+        fontFamily="$body"
+        fontSize="$6"
+        maxWidth={600}
+        textAlign="center"
+        color="$colorHover"
+        lineHeight="$6"
+      >
+        {t('description')}
+      </Paragraph>
+
+      <YStack gap="$4" alignItems="center">
+        {/* Language toggle button */}
+        <Button
+          backgroundColor="$primary"
+          color="white"
+          paddingHorizontal="$6"
+          paddingVertical="$4"
+          borderRadius="$4"
+          onPress={toggleLanguage}
+          hoverStyle={{ backgroundColor: '$primaryHover' }}
+          pressStyle={{ backgroundColor: '$primaryHover', scale: 0.98 }}
         >
-          <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
+          <Text fontFamily="$heading" fontWeight="600" color="white" fontSize="$5">
+            {i18n.language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
+          </Text>
+        </Button>
+
+        {/* RTL Test section */}
+        <YStack
+          marginTop="$8"
+          padding="$6"
+          backgroundColor="$backgroundHover"
+          borderRadius="$4"
+          maxWidth={600}
+          gap="$4"
+        >
+          <Heading fontFamily="$heading" fontSize="$7" fontWeight="600" color="$color">
             RTL Test / اختبار RTL
-          </h2>
-          <ul style={{ paddingInlineStart: '2rem', lineHeight: '1.8' }}>
-            <li>هذا نص عربي لاختبار التخطيط من اليمين إلى اليسار</li>
-            <li>This is English text to test left-to-right layout</li>
-            <li>الأرقام: ١٢٣٤٥٦٧٨٩٠</li>
-            <li>Numbers: 1234567890</li>
-          </ul>
-        </div>
+          </Heading>
+          <YStack gap="$2" paddingStart="$8">
+            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
+              • هذا نص عربي لاختبار التخطيط من اليمين إلى اليسار
+            </Text>
+            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
+              • This is English text to test left-to-right layout
+            </Text>
+            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
+              • الأرقام: ١٢٣٤٥٦٧٨٩٠
+            </Text>
+            <Text fontFamily="$body" fontSize="$4" color="$color" lineHeight="$4">
+              • Numbers: 1234567890
+            </Text>
+          </YStack>
+        </YStack>
 
-        <div
-          style={{
-            marginTop: '1rem',
-            padding: '1rem',
-            backgroundColor: '#e8f4f8',
-            borderRadius: '0.5rem',
-            textAlign: 'center',
-          }}
+        {/* Status section */}
+        <YStack
+          marginTop="$4"
+          padding="$4"
+          backgroundColor="$backgroundHover"
+          borderRadius="$4"
+          alignItems="center"
+          gap="$2"
         >
-          <p style={{ fontSize: '0.875rem', color: '#666' }}>
-            Current Language: <strong>{i18n.language}</strong> | Direction:{' '}
-            <strong>{i18n.language === 'ar' ? 'RTL' : 'LTR'}</strong>
-          </p>
-          <p style={{ fontSize: '0.875rem', color: '#4CAF50', marginTop: '0.5rem' }}>
+          <Text fontSize="$3" color="$color">
+            Current Language: <Text fontWeight="700">{i18n.language}</Text> | Direction:{' '}
+            <Text fontWeight="700">{i18n.language === 'ar' ? 'RTL' : 'LTR'}</Text>
+          </Text>
+          <Text fontSize="$3" color="$success">
+            Tamagui Configured ✓
+          </Text>
+          <Text fontSize="$3" color="$success">
             Solito Navigation Connected ✓
-          </p>
-        </div>
-      </div>
-    </div>
+          </Text>
+        </YStack>
+      </YStack>
+    </YStack>
   );
 }
