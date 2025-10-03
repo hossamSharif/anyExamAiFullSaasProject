@@ -193,7 +193,7 @@ Dependencies: 0.3 (Database schema)
   - Metadata setup for webhooks
 
 **Day 4-5:**
-- [ ] Story 1.5.3: Stripe Webhook Handler (2d)
+- [x] Story 1.5.3: Stripe Webhook Handler (2d)
   - Create stripeWebhook function
   - Handle checkout.session.completed
   - Handle subscription.updated
