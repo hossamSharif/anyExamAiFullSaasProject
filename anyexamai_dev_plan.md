@@ -633,7 +633,7 @@ Can work SIMULTANEOUSLY with Track C
 ```
 
 **Day 1:**
-- [ ] Story 4.13: Exam History Arabic (1d)
+- [x] Story 4.13: Exam History Arabic (1d)
   - List with Arabic dates
   - Cards with Arabic labels
   - Search/filter in Arabic
