@@ -264,6 +264,9 @@
     "noQuestions": "لا توجد أسئلة في هذا الامتحان",
     "questionList": "قائمة الأسئلة",
     "reviewMarked": "مراجعة المعلمة",
-    "jumpToQuestion": "الانتقال إلى السؤال"
+    "jumpToQuestion": "الانتقال إلى السؤال",
+    "saving": "جاري الحفظ...",
+    "saved": "محفوظ",
+    "saveError": "خطأ في الحفظ"
   }
 }

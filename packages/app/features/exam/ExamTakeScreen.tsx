@@ -7,15 +7,16 @@
  * RTL swipe navigation: swipe RIGHT for next, LEFT for previous (reversed for RTL).
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet } from '@anyexam/ui'
 import { useRouter } from 'solito/router'
-import { ArrowLeft, ArrowRight, Flag, Check, List } from '@tamagui/lucide-icons'
-import { useQuery } from '@tanstack/react-query'
+import { ArrowLeft, ArrowRight, Flag, Check, List, CloudUpload } from '@tamagui/lucide-icons'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { supabase } from '@anyexam/api'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
+import { useAuth } from '@anyexam/api'
 
 interface Question {
   id: string
@@ -47,6 +48,11 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [userAnswers, setUserAnswers] = useState<Record<string, UserAnswer>>({})
   const [showQuestionList, setShowQuestionList] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [lastSaved, setLastSaved] = useState<Date | null>(null)
+  const [attemptId, setAttemptId] = useState<string | null>(null)
+
+  const { user } = useAuth()
 
   // Fetch questions for this exam
   const { data: questions, isLoading } = useQuery({
@@ -62,6 +68,117 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
       return data as Question[]
     },
   })
+
+  // Create or get attempt (Story 4.5: Auto-save)
+  useEffect(() => {
+    const createOrGetAttempt = async () => {
+      if (!user || !examId) return
+
+      // Check if there's an existing in-progress attempt
+      const { data: existingAttempt } = await supabase
+        .from('attempts')
+        .select('*')
+        .eq('exam_id', examId)
+        .eq('user_id', user.id)
+        .eq('status', 'in_progress')
+        .single()
+
+      if (existingAttempt) {
+        setAttemptId(existingAttempt.id)
+
+        // Load saved answers
+        const { data: savedAnswers } = await supabase
+          .from('answers_submitted')
+          .select('*')
+          .eq('attempt_id', existingAttempt.id)
+
+        if (savedAnswers) {
+          const answersMap: Record<string, UserAnswer> = {}
+          savedAnswers.forEach((answer) => {
+            answersMap[answer.question_id] = {
+              questionId: answer.question_id,
+              answer: answer.user_answer || '',
+              isFlagged: false, // We don't store flag state in DB for now
+            }
+          })
+          setUserAnswers(answersMap)
+        }
+      } else {
+        // Create new attempt
+        const { data: newAttempt, error } = await supabase
+          .from('attempts')
+          .insert([
+            {
+              exam_id: examId,
+              user_id: user.id,
+              status: 'in_progress',
+              total_questions: questions?.length || 0,
+            },
+          ])
+          .select()
+          .single()
+
+        if (error) {
+          console.error('Failed to create attempt:', error)
+        } else if (newAttempt) {
+          setAttemptId(newAttempt.id)
+        }
+      }
+    }
+
+    if (questions && questions.length > 0) {
+      createOrGetAttempt()
+    }
+  }, [examId, user, questions])
+
+  // Auto-save mutation (Story 4.5)
+  const saveAnswerMutation = useMutation({
+    mutationFn: async ({ questionId, answer }: { questionId: string; answer: string }) => {
+      if (!attemptId) return
+
+      // Upsert answer
+      const { error } = await supabase
+        .from('answers_submitted')
+        .upsert(
+          {
+            attempt_id: attemptId,
+            question_id: questionId,
+            user_answer: answer,
+          },
+          {
+            onConflict: 'attempt_id,question_id',
+          }
+        )
+
+      if (error) throw error
+    },
+    onSuccess: () => {
+      setLastSaved(new Date())
+      setIsSaving(false)
+    },
+    onError: (error) => {
+      console.error('Failed to save answer:', error)
+      setIsSaving(false)
+    },
+  })
+
+  // Debounced auto-save (Story 4.5)
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      if (!currentQuestion || !attemptId) return
+
+      const answer = userAnswers[currentQuestion.id]?.answer
+      if (answer !== undefined && answer !== null) {
+        setIsSaving(true)
+        saveAnswerMutation.mutate({
+          questionId: currentQuestion.id,
+          answer,
+        })
+      }
+    }, 1000) // 1 second debounce
+
+    return () => clearTimeout(debounceTimeout)
+  }, [userAnswers, currentQuestion?.id, attemptId])
 
   const currentQuestion = questions?.[currentQuestionIndex]
   const totalQuestions = questions?.length || 0
@@ -288,9 +405,30 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
             backgroundColor="$blue9"
           />
         </XStack>
-        <Text fontSize="$2" color="$gray10" textAlign={isRTL ? 'right' : 'left'}>
-          {t('exam.progress', 'التقدم')}: {formatNumber(Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100))}%
-        </Text>
+        <XStack justifyContent="space-between" alignItems="center" direction={isRTL ? 'rtl' : 'ltr'}>
+          <Text fontSize="$2" color="$gray10">
+            {t('exam.progress', 'التقدم')}: {formatNumber(Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100))}%
+          </Text>
+
+          {/* Auto-save indicator (Story 4.5) */}
+          <XStack alignItems="center" gap="$1" direction={isRTL ? 'rtl' : 'ltr'}>
+            {isSaving ? (
+              <>
+                <Spinner size="small" color="$blue10" />
+                <Text fontSize="$2" color="$blue10">
+                  {t('exam.saving', 'جاري الحفظ...')}
+                </Text>
+              </>
+            ) : lastSaved ? (
+              <>
+                <Check size={12} color="$green10" />
+                <Text fontSize="$2" color="$green10">
+                  {t('exam.saved', 'محفوظ')}
+                </Text>
+              </>
+            ) : null}
+          </XStack>
+        </XStack>
       </YStack>
 
       {/* Question Content */}
