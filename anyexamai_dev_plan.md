@@ -647,7 +647,7 @@ Can work SIMULTANEOUSLY with Track C
   - RTL charts
 
 **Day 2 (Afternoon):**
-- [ ] Story 4.15: Exam Retry Arabic (0.5d)
+- [x] Story 4.15: Exam Retry Arabic (0.5d)
   - "إعادة الامتحان" button
   - Track attempts in Arabic
   - Compare in Arabic

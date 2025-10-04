@@ -283,7 +283,15 @@
     "nextQuestion": "السؤال التالي",
     "wellDone": "أحسنت!",
     "tryAgain": "حاول مرة أخرى",
-    "yourAnswerWas": "إجابتك كانت"
+    "yourAnswerWas": "إجابتك كانت",
+    "attemptNumber": "المحاولة رقم",
+    "previousAttempts": "المحاولات السابقة",
+    "attempt": "محاولة",
+    "improvement": "تحسن",
+    "decrease": "انخفاض",
+    "sameScore": "نفس النتيجة",
+    "startRetake": "بدء إعادة الامتحان",
+    "firstAttempt": "هذه محاولتك الأولى لهذا الامتحان"
   },
   "results": {
     "title": "نتائج الامتحان",
