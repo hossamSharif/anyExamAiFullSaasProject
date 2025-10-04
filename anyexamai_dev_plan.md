@@ -411,7 +411,7 @@ Dependencies: 1.2 (UI components), 1.5.4 (Pro tier check)
 ```
 
 **Day 1-1.5:**
-- [ ] Story 3.1: Mobile File Picker + Pro Check (1.5d)
+- [x] Story 3.1: Mobile File Picker + Pro Check (1.5d)
   - expo-document-picker integration
   - Pro tier check before upload
   - Arabic upgrade prompt for Free tier
@@ -419,14 +419,14 @@ Dependencies: 1.2 (UI components), 1.5.4 (Pro tier check)
   - Arabic error messages
 
 **Day 2:**
-- [ ] Story 3.2: Web Drag-and-Drop Arabic (1.5d)
+- [x] Story 3.2: Web Drag-and-Drop Arabic (1.5d)
   - react-dropzone configuration
   - Arabic instructions
   - Click-to-browse in Arabic
   - RTL layout
 
 **Day 3:**
-- [ ] Story 3.3: Upload to Supabase Storage (1d)
+- [x] Story 3.3: Upload to Supabase Storage (1d)
   - Upload with progress
   - Arabic progress indicators
   - Retry logic with Arabic prompts
@@ -442,7 +442,7 @@ Dependencies: 0.3 (Database schema)
 ```
 
 **Day 1-3:**
-- [ ] Story 3.4: Arabic Document Parser Edge Function (3d)
+- [x] Story 3.4: Arabic Document Parser Edge Function (3d)
   - Create parseDocument function
   - PDF.js with Arabic text extraction
   - DOCX with Arabic preservation
@@ -451,21 +451,21 @@ Dependencies: 0.3 (Database schema)
   - Chunking for Arabic
 
 **Day 4:**
-- [ ] Story 3.5: Document Embedding Generation (1d)
+- [x] Story 3.5: Document Embedding Generation (1d)
   - Reuse generateEmbeddings
   - Handle Arabic document chunks
   - Store with language='ar'
   - Progress updates in Arabic
 
 **Day 4-5:**
-- [ ] Story 3.6: Processing Status Arabic (1.5d)
+- [x] Story 3.6: Processing Status Arabic (1.5d)
   - Status in Arabic (معالجة، مكتمل، etc.)
   - Realtime subscription
   - Multi-stage progress in Arabic
   - Arabic error messages
 
 **Day 5:**
-- [ ] Story 3.7: Web Link Scraper Arabic (2d)
+- [x] Story 3.7: Web Link Scraper Arabic (2d)
   - Create scrapeWebContent function
   - Arabic content support
   - URL validation with Arabic errors
@@ -481,20 +481,20 @@ Dependencies: 3.3, 3.6
 ```
 
 **Day 1:**
-- [ ] Story 3.8: Document Library Screen Arabic (1.5d)
+- [x] Story 3.8: Document Library Screen Arabic (1.5d)
   - List with Arabic labels
   - Status indicators in Arabic
   - Swipe/context menu in Arabic
   - RTL layout
 
 **Day 2:**
-- [ ] Story 3.9: Document Preview Arabic (1d)
+- [x] Story 3.9: Document Preview Arabic (1d)
   - Preview with Arabic text
   - Topics in Arabic
   - Re-process button in Arabic
   - Arabic confirmation dialogs
 
-- [ ] Story 3.10: Upload-Based Exam Generation (1.5d)
+- [x] Story 3.10: Upload-Based Exam Generation (1.5d)
   - Reuse generateExam function
   - Search user's Arabic documents
   - Same config in Arabic

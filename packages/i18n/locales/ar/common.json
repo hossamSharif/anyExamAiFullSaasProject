@@ -217,5 +217,30 @@
   },
   "common": {
     "ok": "حسناً"
+  },
+  "exam": {
+    "title": "الامتحان",
+    "startExam": "بدء الامتحان",
+    "saveForLater": "حفظ لوقت لاحق",
+    "overview": "نظرة عامة",
+    "questionsCount": "{{count}} سؤال",
+    "estimatedTime": "الوقت المتوقع",
+    "minutes": "دقيقة",
+    "topics": "المواضيع",
+    "difficulty": "مستوى الصعوبة",
+    "easy": "سهل",
+    "medium": "متوسط",
+    "hard": "صعب",
+    "difficultyChart": "توزيع الصعوبة",
+    "subject": "المادة",
+    "topicsSelected": "مواضيع محددة",
+    "questionCount": "عدد الأسئلة",
+    "configureExam": "إعدادات الامتحان",
+    "generateExam": "إنشاء الامتحان",
+    "starting": "جارٍ البدء...",
+    "proOnly": "احترافي",
+    "limitReached": "لقد وصلت إلى الحد الأقصى للامتحانات هذا الشهر",
+    "upgradeRequired": "قم بالترقية للنسخة الاحترافية لإنشاء المزيد",
+    "notFound": "الامتحان غير موجود"
   }
 }
