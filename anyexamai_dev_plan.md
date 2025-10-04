@@ -303,7 +303,7 @@ Dependencies: 0.3 (Database schema)
   - 10 major subjects (الرياضيات، الفيزياء، etc.)
 
 **Day 3-4:**
-- [ ] Story 2.2: Embedding Generation Edge Function (1.5d)
+- [x] Story 2.2: Embedding Generation Edge Function (1.5d)
   - Create generateEmbeddings function
   - OpenAI integration (text-embedding-3-small)
   - Arabic text encoding handling

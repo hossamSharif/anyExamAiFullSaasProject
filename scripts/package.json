@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "ingest": "ts-node ingest-content.ts",
-    "ingest:watch": "nodemon --exec ts-node ingest-content.ts"
+    "ingest:watch": "nodemon --exec ts-node ingest-content.ts",
+    "embed": "ts-node generate-embeddings.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

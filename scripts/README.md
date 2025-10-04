@@ -10,11 +10,12 @@ cd scripts
 pnpm install
 ```
 
-2. Ensure your `.env.local` file in the project root has the required Supabase credentials:
+2. Ensure your `.env.local` file in the project root has the required credentials:
 ```
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key (optional, for admin operations)
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key (required for embeddings)
+OPENAI_API_KEY=your_openai_api_key (required for embedding generation)
 ```
 
 ## Available Scripts
@@ -33,6 +34,38 @@ This script will:
 - Validate and clean Arabic text
 - Insert chunks into the `content_chunks` table
 - Display progress and summary statistics
+
+### Embedding Generation
+
+Generate OpenAI embeddings for all content chunks:
+
+```bash
+pnpm embed
+```
+
+This script will:
+- Fetch all chunks without embeddings from the database
+- Process chunks in batches of 100
+- Generate embeddings using OpenAI's text-embedding-3-small model
+- Update chunks with their embeddings
+- Display progress, cost estimates, and token usage
+
+**Prerequisites:**
+- OPENAI_API_KEY must be set in `.env.local`
+- SUPABASE_SERVICE_ROLE_KEY must be set for admin operations
+- Supabase Edge Function `generate-embeddings` must be deployed:
+  ```bash
+  # From project root
+  supabase functions deploy generate-embeddings
+
+  # Set secrets
+  supabase secrets set OPENAI_API_KEY=your_key_here
+  ```
+
+**Cost Estimate:**
+- Model: text-embedding-3-small
+- Cost: $0.00002 per 1K tokens
+- For 150 chunks (~500 chars each): ~$0.002 total
 
 ### Data Structure
 
