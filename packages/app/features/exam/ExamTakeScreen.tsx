@@ -1,18 +1,21 @@
 /**
- * ExamTakeScreen - Main exam taking interface (Story 4.2)
+ * ExamTakeScreen - Main exam taking interface (Story 4.2 & 4.3)
  *
  * Displays questions with Arabic text and proper RTL layout.
  * Supports multiple choice, short answer, and true/false question types.
  * Includes question navigation, progress tracking, and answer submission.
+ * RTL swipe navigation: swipe RIGHT for next, LEFT for previous (reversed for RTL).
  */
 
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup } from '@anyexam/ui'
 import { useRouter } from 'solito/router'
 import { ArrowLeft, ArrowRight, Flag, Check } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@anyexam/api'
+import { GestureDetector, Gesture } from 'react-native-gesture-handler'
 
 interface Question {
   id: string
@@ -125,6 +128,74 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
   const isFlagged = currentQuestion ? userAnswers[currentQuestion.id]?.isFlagged : false
 
+  // Swipe gesture for navigation (Story 4.3)
+  // For RTL: swipe RIGHT for next, LEFT for previous (reversed!)
+  // For LTR: swipe LEFT for next, RIGHT for previous (normal)
+  const swipeGesture = Gesture.Pan()
+    .onEnd((event) => {
+      const swipeThreshold = 50
+      const velocityThreshold = 500
+
+      // Check if swipe is horizontal enough
+      if (Math.abs(event.velocityX) > Math.abs(event.velocityY)) {
+        if (isRTL) {
+          // RTL mode: swipe RIGHT to go next, LEFT to go previous
+          if (event.translationX > swipeThreshold || event.velocityX > velocityThreshold) {
+            // Swiped right -> next question
+            if (currentQuestionIndex < totalQuestions - 1) {
+              goToNextQuestion()
+              // Haptic feedback
+              if (Platform.OS !== 'web') {
+                // @ts-ignore
+                import('react-native-haptic-feedback').then((haptic) => {
+                  haptic.default.trigger('impactLight')
+                })
+              }
+            }
+          } else if (event.translationX < -swipeThreshold || event.velocityX < -velocityThreshold) {
+            // Swiped left -> previous question
+            if (currentQuestionIndex > 0) {
+              goToPreviousQuestion()
+              // Haptic feedback
+              if (Platform.OS !== 'web') {
+                // @ts-ignore
+                import('react-native-haptic-feedback').then((haptic) => {
+                  haptic.default.trigger('impactLight')
+                })
+              }
+            }
+          }
+        } else {
+          // LTR mode: swipe LEFT to go next, RIGHT to go previous
+          if (event.translationX < -swipeThreshold || event.velocityX < -velocityThreshold) {
+            // Swiped left -> next question
+            if (currentQuestionIndex < totalQuestions - 1) {
+              goToNextQuestion()
+              // Haptic feedback
+              if (Platform.OS !== 'web') {
+                // @ts-ignore
+                import('react-native-haptic-feedback').then((haptic) => {
+                  haptic.default.trigger('impactLight')
+                })
+              }
+            }
+          } else if (event.translationX > swipeThreshold || event.velocityX > velocityThreshold) {
+            // Swiped right -> previous question
+            if (currentQuestionIndex > 0) {
+              goToPreviousQuestion()
+              // Haptic feedback
+              if (Platform.OS !== 'web') {
+                // @ts-ignore
+                import('react-native-haptic-feedback').then((haptic) => {
+                  haptic.default.trigger('impactLight')
+                })
+              }
+            }
+          }
+        }
+      }
+    })
+
   if (isLoading) {
     return (
       <YStack flex={1} alignItems="center" justifyContent="center" backgroundColor="$background">
@@ -201,8 +272,9 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
       </YStack>
 
       {/* Question Content */}
-      <ScrollView flex={1}>
-        <YStack padding="$4" gap="$5">
+      <GestureDetector gesture={swipeGesture}>
+        <ScrollView flex={1}>
+          <YStack padding="$4" gap="$5">
           {/* Question Text */}
           <Card padding="$5" backgroundColor="$blue2" borderColor="$blue6">
             <Text
@@ -361,8 +433,9 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
               </XStack>
             </YStack>
           )}
-        </YStack>
-      </ScrollView>
+          </YStack>
+        </ScrollView>
+      </GestureDetector>
 
       {/* Bottom Navigation */}
       <YStack
