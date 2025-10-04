@@ -328,7 +328,7 @@ Can work SIMULTANEOUSLY with Track A
 ```
 
 **Day 1-1.5:**
-- [ ] Story 2.4: Category Browser Arabic (1.5d)
+- [x] Story 2.4: Category Browser Arabic (1.5d)
   - Grid of Arabic subject cards
   - Arabic search bar
   - Pull-to-refresh
