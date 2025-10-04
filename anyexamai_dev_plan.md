@@ -375,7 +375,7 @@ Dependencies: 2.3 (Vector search), 1.5.4 (Usage tracking)
   - RTL layout
 
 **Day 2-3:**
-- [ ] Story 2.9: Arabic Exam Generation Edge Function (2.5d)
+- [x] Story 2.9: Arabic Exam Generation Edge Function (2.5d)
   - Create generateExam function
   - Vector search for Arabic content
   - Claude API with Arabic prompts
@@ -384,7 +384,7 @@ Dependencies: 2.3 (Vector search), 1.5.4 (Usage tracking)
   - Store with language='ar'
 
 **Day 3 (Afternoon):**
-- [ ] Story 2.10: Real-Time Progress Arabic (1d)
+- [x] Story 2.10: Real-Time Progress Arabic (1d)
   - Progress stages in Arabic (البحث → الإنشاء → الإنهاء)
   - Realtime subscription
   - Tamagui animations

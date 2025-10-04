@@ -222,6 +222,8 @@ serve(async (req) => {
     return handleCorsPrelight()
   }
 
+  let jobId: string | null = null
+
   try {
     // Initialize Supabase client
     const supabaseClient = createClient(
@@ -262,6 +264,29 @@ serve(async (req) => {
       return errorResponse('questionCount must be between 5 and 50')
     }
 
+    // Create generation job
+    const { data: job, error: jobError } = await supabaseClient
+      .from('generation_jobs')
+      .insert({
+        user_id: user.id,
+        subject,
+        topics,
+        question_count: questionCount,
+        difficulty,
+        language,
+        status: 'searching',
+        current_stage: language === 'ar' ? 'البحث عن المحتوى المناسب...' : 'Searching for relevant content...',
+        progress_percent: 10,
+      })
+      .select()
+      .single()
+
+    if (jobError || !job) {
+      throw new Error(`Failed to create generation job: ${jobError?.message}`)
+    }
+
+    jobId = job.id
+
     // Get relevant content
     const contentChunks = await getRelevantContent(
       supabaseClient,
@@ -272,8 +297,26 @@ serve(async (req) => {
     )
 
     if (contentChunks.length === 0) {
+      await supabaseClient
+        .from('generation_jobs')
+        .update({
+          status: 'failed',
+          error_message: language === 'ar' ? 'لم يتم العثور على محتوى للموضوعات المحددة' : 'No content found for selected topics',
+          progress_percent: 0,
+        })
+        .eq('id', jobId)
       return errorResponse('No content found for the selected subject/topics')
     }
+
+    // Update: Generating questions
+    await supabaseClient
+      .from('generation_jobs')
+      .update({
+        status: 'generating',
+        current_stage: language === 'ar' ? 'إنشاء الأسئلة...' : 'Generating questions...',
+        progress_percent: 40,
+      })
+      .eq('id', jobId)
 
     // Generate questions with Claude
     const questions = await generateQuestionsWithClaude(
@@ -284,6 +327,16 @@ serve(async (req) => {
       difficulty,
       language
     )
+
+    // Update: Completing
+    await supabaseClient
+      .from('generation_jobs')
+      .update({
+        status: 'completing',
+        current_stage: language === 'ar' ? 'إنهاء الامتحان...' : 'Finalizing exam...',
+        progress_percent: 70,
+      })
+      .eq('id', jobId)
 
     // Create exam record
     const { data: exam, error: examError } = await supabaseClient
@@ -326,15 +379,51 @@ serve(async (req) => {
       throw new Error(`Failed to insert questions: ${questionsError.message}`)
     }
 
-    // Return exam with questions
+    // Update job: Completed
+    await supabaseClient
+      .from('generation_jobs')
+      .update({
+        status: 'completed',
+        current_stage: language === 'ar' ? 'تم بنجاح!' : 'Completed successfully!',
+        progress_percent: 100,
+        exam_id: exam.id,
+      })
+      .eq('id', jobId)
+
+    // Return job and exam info
     return jsonResponse({
+      jobId: job.id,
       examId: exam.id,
-      exam,
-      questions,
       message: 'Exam generated successfully',
     })
   } catch (error) {
     console.error('Error generating exam:', error)
+
+    // Update job status to failed if we have a jobId
+    if (jobId) {
+      try {
+        const supabaseClient = createClient(
+          Deno.env.get('SUPABASE_URL') ?? '',
+          Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+          {
+            global: {
+              headers: { Authorization: req.headers.get('Authorization')! },
+            },
+          }
+        )
+        await supabaseClient
+          .from('generation_jobs')
+          .update({
+            status: 'failed',
+            error_message: error instanceof Error ? error.message : 'Failed to generate exam',
+            progress_percent: 0,
+          })
+          .eq('id', jobId)
+      } catch (updateError) {
+        console.error('Failed to update job status:', updateError)
+      }
+    }
+
     return errorResponse(
       error instanceof Error ? error.message : 'Failed to generate exam',
       500

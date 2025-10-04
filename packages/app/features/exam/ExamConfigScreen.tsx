@@ -7,8 +7,8 @@
 
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { YStack, XStack, Button, Text, Slider, Card } from '@anyexam/ui'
-import { useSubscription, useCanGenerateExam, usePaywall } from '@anyexam/api'
+import { YStack, XStack, Button, Text, Slider, Card, Spinner } from '@anyexam/ui'
+import { useSubscription, useCanGenerateExam, usePaywall, useStartExamGeneration } from '@anyexam/api'
 import { useRouter } from 'solito/router'
 import { ArrowLeft, ArrowRight } from '@tamagui/lucide-icons'
 
@@ -27,6 +27,7 @@ export function ExamConfigScreen({ subject, topics }: ExamConfigScreenProps) {
   const { data: subscription } = useSubscription()
   const { canGenerate, reason } = useCanGenerateExam()
   const { showPaywall } = usePaywall()
+  const { mutateAsync: startGeneration, isPending: isGenerating } = useStartExamGeneration()
 
   const isPro = subscription?.tier === 'pro'
   const maxQuestions = isPro ? 50 : 10
@@ -62,14 +63,22 @@ export function ExamConfigScreen({ subject, topics }: ExamConfigScreenProps) {
       return
     }
 
-    // Navigate to generation screen with parameters
-    const params = new URLSearchParams({
-      subject,
-      topics: topics.join(','),
-      questionCount: questionCount.toString(),
-      difficulty,
-    })
-    router.push(`/exam/generate?${params.toString()}`)
+    try {
+      // Start exam generation
+      const { jobId } = await startGeneration({
+        subject,
+        topics,
+        questionCount,
+        difficulty,
+        language: i18n.language,
+      })
+
+      // Navigate to generation progress screen
+      router.push(`/exam/generate/${jobId}`)
+    } catch (error) {
+      console.error('Failed to start exam generation:', error)
+      // TODO: Show error toast
+    }
   }
 
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
@@ -222,10 +231,13 @@ export function ExamConfigScreen({ subject, topics }: ExamConfigScreenProps) {
           size="$5"
           theme="active"
           onPress={handleGenerateExam}
-          disabled={!canGenerate || topics.length === 0}
-          opacity={!canGenerate || topics.length === 0 ? 0.5 : 1}
+          disabled={!canGenerate || topics.length === 0 || isGenerating}
+          opacity={!canGenerate || topics.length === 0 || isGenerating ? 0.5 : 1}
+          icon={isGenerating ? <Spinner /> : undefined}
         >
-          {t('exam.generateExam', 'إنشاء الامتحان')}
+          {isGenerating
+            ? t('exam.starting', 'جارٍ البدء...')
+            : t('exam.generateExam', 'إنشاء الامتحان')}
         </Button>
       </YStack>
     </YStack>
