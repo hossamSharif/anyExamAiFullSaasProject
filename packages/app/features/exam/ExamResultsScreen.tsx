@@ -319,6 +319,103 @@ export function ExamResultsScreen({ attemptId }: ExamResultsScreenProps) {
             </Card>
           </XStack>
 
+          {/* Performance Breakdown (Story 4.10) */}
+          <Card padding="$5" backgroundColor="$backgroundHover" borderColor="$borderColor">
+            <YStack gap="$4">
+              <Text fontSize="$6" fontWeight="700" color="$gray12" textAlign={isRTL ? 'right' : 'left'}>
+                {t('results.performanceBreakdown', 'تحليل الأداء')}
+              </Text>
+
+              {/* Accuracy Progress Bar */}
+              <YStack gap="$2">
+                <XStack justifyContent="space-between" direction={isRTL ? 'rtl' : 'ltr'}>
+                  <Text fontSize="$3" color="$gray11">
+                    {t('results.accuracy', 'الدقة')}
+                  </Text>
+                  <Text fontSize="$3" fontWeight="600" color="$blue11">
+                    {formatNumber(Math.round((correctAnswers / totalQuestions) * 100))}%
+                  </Text>
+                </XStack>
+                <YStack height={8} backgroundColor="$gray4" borderRadius="$2" overflow="hidden">
+                  <YStack
+                    width={`${(correctAnswers / totalQuestions) * 100}%`}
+                    height="100%"
+                    backgroundColor="$blue9"
+                  />
+                </YStack>
+              </YStack>
+
+              {/* Time Analysis */}
+              <YStack gap="$3">
+                <Text fontSize="$4" fontWeight="600" color="$gray12" textAlign={isRTL ? 'right' : 'left'}>
+                  {t('results.timeAnalysis', 'تحليل الوقت')}
+                </Text>
+
+                <XStack gap="$3" flexWrap="wrap">
+                  <Card flex={1} minWidth={120} padding="$3" backgroundColor="$blue2">
+                    <YStack alignItems={isRTL ? 'flex-end' : 'flex-start'} gap="$1">
+                      <Text fontSize="$2" color="$blue10">
+                        {t('results.averageTimePerQuestion', 'متوسط الوقت')}
+                      </Text>
+                      <Text fontSize="$5" fontWeight="700" color="$blue11">
+                        {formatNumber(Math.round((attempt.time_spent_seconds || 0) / totalQuestions))}{' '}
+                        {t('results.seconds', 'ثانية')}
+                      </Text>
+                    </YStack>
+                  </Card>
+
+                  <Card flex={1} minWidth={120} padding="$3" backgroundColor="$purple2">
+                    <YStack alignItems={isRTL ? 'flex-end' : 'flex-start'} gap="$1">
+                      <Text fontSize="$2" color="$purple10">
+                        {t('results.totalTime', 'الوقت الإجمالي')}
+                      </Text>
+                      <Text fontSize="$5" fontWeight="700" color="$purple11">
+                        {formatTime(attempt.time_spent_seconds || 0)}
+                      </Text>
+                    </YStack>
+                  </Card>
+                </XStack>
+              </YStack>
+
+              {/* Strengths & Weaknesses */}
+              <YStack gap="$3">
+                <XStack gap="$3" flexWrap="wrap">
+                  {correctAnswers > wrongAnswers && (
+                    <Card flex={1} minWidth={150} padding="$3" backgroundColor="$green2" borderColor="$green6">
+                      <YStack alignItems={isRTL ? 'flex-end' : 'flex-start'} gap="$2">
+                        <Text fontSize="$2" color="$green10" fontWeight="600">
+                          {t('results.strengths', 'نقاط القوة')}
+                        </Text>
+                        <Text fontSize="$3" color="$green11" textAlign={isRTL ? 'right' : 'left'}>
+                          {score >= 90
+                            ? 'أداء ممتاز في جميع الأسئلة'
+                            : score >= 70
+                            ? 'دقة عالية في الإجابات'
+                            : 'فهم جيد للمفاهيم الأساسية'}
+                        </Text>
+                      </YStack>
+                    </Card>
+                  )}
+
+                  {wrongAnswers > 0 && (
+                    <Card flex={1} minWidth={150} padding="$3" backgroundColor="$orange2" borderColor="$orange6">
+                      <YStack alignItems={isRTL ? 'flex-end' : 'flex-start'} gap="$2">
+                        <Text fontSize="$2" color="$orange10" fontWeight="600">
+                          {t('results.weaknesses', 'نقاط الضعف')}
+                        </Text>
+                        <Text fontSize="$3" color="$orange11" textAlign={isRTL ? 'right' : 'left'}>
+                          {wrongAnswers > correctAnswers
+                            ? 'يحتاج إلى مزيد من المراجعة'
+                            : 'بعض المفاهيم تحتاج توضيح'}
+                        </Text>
+                      </YStack>
+                    </Card>
+                  )}
+                </XStack>
+              </YStack>
+            </YStack>
+          </Card>
+
           {/* Action Buttons */}
           <YStack gap="$3">
             <Button

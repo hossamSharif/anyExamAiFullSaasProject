@@ -603,7 +603,7 @@ Dependencies: 4.7 (Scoring function)
   - Letter grade in Arabic (ممتاز، جيد، etc.)
 
 **Day 2:**
-- [ ] Story 4.10: Performance Breakdown Arabic (1.5d)
+- [x] Story 4.10: Performance Breakdown Arabic (1.5d)
   - Score card with Arabic labels
   - Charts with Arabic text
   - Time analysis in Arabic format

@@ -314,6 +314,24 @@
     "shareResults": "مشاركة النتائج",
     "downloadReport": "تحميل التقرير",
     "scoringInProgress": "جاري حساب النتيجة...",
-    "pleaseWait": "يرجى الانتظار..."
+    "pleaseWait": "يرجى الانتظار...",
+    "performanceBreakdown": "تحليل الأداء",
+    "byQuestionType": "حسب نوع السؤال",
+    "timeAnalysis": "تحليل الوقت",
+    "averageTimePerQuestion": "متوسط الوقت لكل سؤال",
+    "totalTime": "الوقت الإجمالي",
+    "fastestAnswer": "أسرع إجابة",
+    "slowestAnswer": "أبطأ إجابة",
+    "strengths": "نقاط القوة",
+    "weaknesses": "نقاط الضعف",
+    "accuracy": "الدقة",
+    "speed": "السرعة",
+    "comparison": "المقارنة",
+    "yourScore": "نتيجتك",
+    "classAverage": "متوسط الفصل",
+    "topScore": "أعلى نتيجة",
+    "minutes": "دقيقة",
+    "seconds": "ثانية",
+    "questions": "أسئلة"
   }
 }
