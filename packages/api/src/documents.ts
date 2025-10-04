@@ -305,3 +305,39 @@ export function subscribeToDocumentStatus(
     supabase.removeChannel(channel);
   };
 }
+
+/**
+ * Scrape content from a URL
+ */
+export async function scrapeWebContent(url: string): Promise<DocumentUploadResult> {
+  try {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    // Call the scrape-web-content edge function
+    const { data, error } = await supabase.functions.invoke('scrape-web-content', {
+      body: { url, userId: user.id },
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || !data.success) {
+      throw new Error(data?.error || 'Failed to scrape web content');
+    }
+
+    return {
+      id: data.documentId,
+      fileName: data.title || url,
+      fileUrl: url,
+      status: 'completed',
+    };
+  } catch (error) {
+    console.error('Error scraping web content:', error);
+    throw error;
+  }
+}

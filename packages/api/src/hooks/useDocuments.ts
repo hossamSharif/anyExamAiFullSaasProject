@@ -13,6 +13,7 @@ import {
   getDocument,
   deleteDocument,
   subscribeToDocumentStatus,
+  scrapeWebContent,
   type Document,
   type DocumentUploadResult,
 } from '../documents';
@@ -318,5 +319,111 @@ export function useCanUploadDocument() {
     canUpload: true,
     reason: null,
     loading: false,
+  };
+}
+
+/**
+ * Hook for scraping web content
+ *
+ * @example
+ * ```tsx
+ * const { scrapeUrl, scraping } = useScrapeWebContent();
+ *
+ * const result = await scrapeUrl('https://example.com/article');
+ * ```
+ */
+export function useScrapeWebContent() {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const { tier, canUploadDocument, trackDocumentUpload } = useUsageTracking();
+  const { showPaywall } = usePaywall();
+  const [progress, setProgress] = useState<UploadProgress | null>(null);
+
+  const mutation = useMutation({
+    mutationFn: async (url: string) => {
+      // Check if user has Pro tier
+      if (tier !== 'pro') {
+        showPaywall('document');
+        throw new Error(
+          t('documents.proRequired', {
+            defaultValue: 'رفع المستندات متاح فقط للمشتركين في النسخة الاحترافية',
+          })
+        );
+      }
+
+      // Check usage limits
+      if (!canUploadDocument()) {
+        showPaywall('document');
+        throw new Error(
+          t('documents.limitReached', {
+            defaultValue: 'لقد وصلت إلى الحد الأقصى من المستندات هذا الشهر',
+          })
+        );
+      }
+
+      // Set scraping status
+      setProgress({
+        fileName: url,
+        progress: 50,
+        status: 'processing',
+      });
+
+      // Scrape web content
+      const result = await scrapeWebContent(url);
+
+      // Track usage
+      await trackDocumentUpload();
+
+      // Set completed status
+      setProgress({
+        fileName: result.fileName,
+        progress: 100,
+        status: 'completed',
+      });
+
+      return result;
+    },
+    onSuccess: () => {
+      // Invalidate queries to refetch documents
+      queryClient.invalidateQueries({ queryKey: ['documents'] });
+
+      // Clear progress after 2 seconds
+      setTimeout(() => setProgress(null), 2000);
+    },
+    onError: (error) => {
+      setProgress((prev) =>
+        prev
+          ? {
+              ...prev,
+              status: 'error',
+              error: error instanceof Error ? error.message : 'Scraping failed',
+            }
+          : null
+      );
+
+      // Clear progress after 3 seconds
+      setTimeout(() => setProgress(null), 3000);
+    },
+  });
+
+  const scrapeUrl = useCallback(
+    async (url: string): Promise<DocumentUploadResult | null> => {
+      try {
+        const result = await mutation.mutateAsync(url);
+        return result;
+      } catch (error) {
+        console.error('Scraping error:', error);
+        return null;
+      }
+    },
+    [mutation]
+  );
+
+  return {
+    scrapeUrl,
+    scraping: mutation.isPending,
+    progress,
+    error: mutation.error,
+    reset: mutation.reset,
   };
 }
