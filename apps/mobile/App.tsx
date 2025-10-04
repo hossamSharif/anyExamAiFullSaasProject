@@ -35,6 +35,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import { DeepLinkHandler } from './components/DeepLinkHandler';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -158,25 +159,27 @@ export default function App() {
     <QueryProvider>
       <TamaguiProvider>
         <NavigationProvider>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-              animation: 'slide_from_right',
-              // RTL animation support
-              ...(I18nManager.isRTL && {
-                animation: 'slide_from_left',
-              }),
-            }}
-          >
-            {/* Auth Screens */}
-            <Stack.Screen name="login" component={LoginScreen} />
-            <Stack.Screen name="signup" component={SignupScreen} />
-            <Stack.Screen name="forgot-password" component={ForgotPasswordScreen} />
+          <DeepLinkHandler>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: 'slide_from_right',
+                // RTL animation support
+                ...(I18nManager.isRTL && {
+                  animation: 'slide_from_left',
+                }),
+              }}
+            >
+              {/* Auth Screens */}
+              <Stack.Screen name="login" component={LoginScreen} />
+              <Stack.Screen name="signup" component={SignupScreen} />
+              <Stack.Screen name="forgot-password" component={ForgotPasswordScreen} />
 
-            {/* Main App (Protected with Bottom Tabs) */}
-            <Stack.Screen name="index" component={TabNavigator} />
-          </Stack.Navigator>
-          <StatusBar style="auto" />
+              {/* Main App (Protected with Bottom Tabs) */}
+              <Stack.Screen name="index" component={TabNavigator} />
+            </Stack.Navigator>
+            <StatusBar style="auto" />
+          </DeepLinkHandler>
         </NavigationProvider>
       </TamaguiProvider>
     </QueryProvider>
