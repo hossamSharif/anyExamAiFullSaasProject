@@ -572,7 +572,7 @@ Can work SIMULTANEOUSLY with Track A
   - Validation warnings in Arabic
 
 **Day 1-3:**
-- [ ] Story 4.7: Arabic Scoring Edge Function (2.5d)
+- [x] Story 4.7: Arabic Scoring Edge Function (2.5d)
   - Create scoreExam function
   - Auto-score multiple choice
   - Claude evaluation of Arabic short answers
