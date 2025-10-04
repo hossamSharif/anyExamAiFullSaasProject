@@ -1,2 +1,4 @@
 export { BrowseScreen } from './BrowseScreen'
 export { SubjectCard } from './SubjectCard'
+export { SubjectDetailScreen } from './SubjectDetailScreen'
+export { TopicChip } from './TopicChip'

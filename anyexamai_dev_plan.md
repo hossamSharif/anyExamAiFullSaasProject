@@ -336,7 +336,7 @@ Can work SIMULTANEOUSLY with Track A
   - Loading states in Arabic
 
 **Day 2-2.5:**
-- [ ] Story 2.5: Subject Detail Screen Arabic (1.5d)
+- [x] Story 2.5: Subject Detail Screen Arabic (1.5d)
   - Arabic topic list
   - Multi-select chips
   - "إنشاء امتحان" button
