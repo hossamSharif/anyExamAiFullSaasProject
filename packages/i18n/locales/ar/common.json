@@ -333,5 +333,25 @@
     "minutes": "دقيقة",
     "seconds": "ثانية",
     "questions": "أسئلة"
+  },
+  "review": {
+    "title": "مراجعة الإجابات",
+    "filterAll": "الكل",
+    "filterCorrect": "صحيح",
+    "filterWrong": "خطأ",
+    "filterSkipped": "متجاوز",
+    "yourAnswer": "إجابتك",
+    "correctAnswer": "الإجابة الصحيحة",
+    "explanation": "التوضيح",
+    "noExplanation": "لا يوجد توضيح متاح",
+    "source": "المصدر",
+    "questionNumber": "سؤال",
+    "of": "من",
+    "noQuestions": "لا توجد أسئلة",
+    "loading": "جاري التحميل...",
+    "correctLabel": "صحيح",
+    "wrongLabel": "خطأ",
+    "skippedLabel": "متجاوز",
+    "showingQuestions": "عرض {{count}} سؤال"
   }
 }

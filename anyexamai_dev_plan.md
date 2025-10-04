@@ -610,7 +610,7 @@ Dependencies: 4.7 (Scoring function)
   - RTL charts
 
 **Day 3:**
-- [ ] Story 4.11: Question Review Arabic (1.5d)
+- [x] Story 4.11: Question Review Arabic (1.5d)
   - List with Arabic questions
   - Answers in Arabic
   - Explanations in Arabic
