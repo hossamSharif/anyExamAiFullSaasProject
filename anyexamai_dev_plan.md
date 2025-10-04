@@ -295,7 +295,7 @@ Dependencies: 0.3 (Database schema)
 ```
 
 **Day 1-2.5:**
-- [ ] Story 2.1: Arabic Content Ingestion (2.5d)
+- [x] Story 2.1: Arabic Content Ingestion (2.5d)
   - Create ingestion scripts for Arabic text
   - Content chunking (preserve Arabic word boundaries)
   - Metadata extraction (subject, topic in Arabic)
