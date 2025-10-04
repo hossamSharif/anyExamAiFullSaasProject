@@ -10,9 +10,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup } from '@anyexam/ui'
+import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet } from '@anyexam/ui'
 import { useRouter } from 'solito/router'
-import { ArrowLeft, ArrowRight, Flag, Check } from '@tamagui/lucide-icons'
+import { ArrowLeft, ArrowRight, Flag, Check, List } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@anyexam/api'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -46,6 +46,7 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [userAnswers, setUserAnswers] = useState<Record<string, UserAnswer>>({})
+  const [showQuestionList, setShowQuestionList] = useState(false)
 
   // Fetch questions for this exam
   const { data: questions, isLoading } = useQuery({
@@ -123,6 +124,18 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1)
     }
+  }
+
+  const jumpToQuestion = (index: number) => {
+    setCurrentQuestionIndex(index)
+    setShowQuestionList(false)
+  }
+
+  const getQuestionStatus = (questionId: string): 'answered' | 'flagged' | 'unanswered' => {
+    const answer = userAnswers[questionId]
+    if (answer?.isFlagged) return 'flagged'
+    if (answer?.answer) return 'answered'
+    return 'unanswered'
   }
 
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
@@ -248,14 +261,23 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
           </Text>
         </XStack>
 
-        <Button
-          circular
-          size="$3"
-          chromeless
-          onPress={toggleFlag}
-          icon={<Flag size={20} color={isFlagged ? '$orange10' : '$gray10'} />}
-          backgroundColor={isFlagged ? '$orange3' : 'transparent'}
-        />
+        <XStack alignItems="center" gap="$2" direction={isRTL ? 'rtl' : 'ltr'}>
+          <Button
+            circular
+            size="$3"
+            chromeless
+            onPress={() => setShowQuestionList(true)}
+            icon={<List size={20} color="$blue10" />}
+          />
+          <Button
+            circular
+            size="$3"
+            chromeless
+            onPress={toggleFlag}
+            icon={<Flag size={20} color={isFlagged ? '$orange10' : '$gray10'} />}
+            backgroundColor={isFlagged ? '$orange3' : 'transparent'}
+          />
+        </XStack>
       </XStack>
 
       {/* Progress Bar */}
@@ -484,6 +506,139 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
           )}
         </XStack>
       </YStack>
+
+      {/* Question List Sheet (Story 4.4) */}
+      <Sheet
+        open={showQuestionList}
+        onOpenChange={setShowQuestionList}
+        snapPoints={[85]}
+        dismissOnSnapToBottom
+      >
+        <Sheet.Overlay />
+        <Sheet.Frame padding="$4" backgroundColor="$background">
+          <Sheet.Handle />
+          <YStack gap="$4" flex={1}>
+            {/* Header */}
+            <XStack
+              justifyContent="space-between"
+              alignItems="center"
+              paddingBottom="$3"
+              borderBottomWidth={1}
+              borderBottomColor="$borderColor"
+              direction={isRTL ? 'rtl' : 'ltr'}
+            >
+              <Text fontSize="$6" fontWeight="700" color="$gray12">
+                {t('exam.questionList', 'قائمة الأسئلة')}
+              </Text>
+              <Button size="$3" chromeless onPress={() => setShowQuestionList(false)}>
+                {t('close', 'إغلاق')}
+              </Button>
+            </XStack>
+
+            {/* Review Marked Button */}
+            <Button
+              size="$4"
+              theme="active"
+              onPress={() => {
+                const flaggedQuestions = questions?.filter((q) => userAnswers[q.id]?.isFlagged)
+                if (flaggedQuestions && flaggedQuestions.length > 0) {
+                  const flaggedIndex = questions?.findIndex((q) => q.id === flaggedQuestions[0].id)
+                  if (flaggedIndex !== undefined && flaggedIndex !== -1) {
+                    jumpToQuestion(flaggedIndex)
+                  }
+                }
+              }}
+              icon={<Flag size={20} />}
+            >
+              {t('exam.reviewMarked', 'مراجعة المعلمة')}
+            </Button>
+
+            {/* Question Grid */}
+            <ScrollView flex={1}>
+              <YStack gap="$3">
+                <XStack flexWrap="wrap" gap="$3" direction={isRTL ? 'rtl' : 'ltr'}>
+                  {questions?.map((question, index) => {
+                    const status = getQuestionStatus(question.id)
+                    const isActive = currentQuestionIndex === index
+
+                    return (
+                      <Button
+                        key={question.id}
+                        size="$5"
+                        width="23%"
+                        onPress={() => jumpToQuestion(index)}
+                        backgroundColor={
+                          status === 'answered'
+                            ? '$green3'
+                            : status === 'flagged'
+                            ? '$orange3'
+                            : '$gray3'
+                        }
+                        borderColor={
+                          isActive
+                            ? '$blue10'
+                            : status === 'answered'
+                            ? '$green7'
+                            : status === 'flagged'
+                            ? '$orange7'
+                            : '$borderColor'
+                        }
+                        borderWidth={isActive ? 2 : 1}
+                        pressStyle={{
+                          scale: 0.95,
+                        }}
+                      >
+                        <YStack alignItems="center" gap="$1">
+                          <Text
+                            fontSize="$5"
+                            fontWeight={isActive ? '700' : '600'}
+                            color={
+                              status === 'answered'
+                                ? '$green11'
+                                : status === 'flagged'
+                                ? '$orange11'
+                                : '$gray11'
+                            }
+                          >
+                            {formatNumber(index + 1)}
+                          </Text>
+                          {status === 'flagged' && (
+                            <Flag size={12} color="$orange10" />
+                          )}
+                        </YStack>
+                      </Button>
+                    )
+                  })}
+                </XStack>
+
+                {/* Legend */}
+                <Card padding="$4" marginTop="$3" backgroundColor="$backgroundHover">
+                  <YStack gap="$2">
+                    <XStack alignItems="center" gap="$2" direction={isRTL ? 'rtl' : 'ltr'}>
+                      <YStack width={16} height={16} backgroundColor="$green3" borderRadius="$2" />
+                      <Text fontSize="$3" color="$gray11">
+                        {t('exam.answered', 'تمت الإجابة')}
+                      </Text>
+                    </XStack>
+                    <XStack alignItems="center" gap="$2" direction={isRTL ? 'rtl' : 'ltr'}>
+                      <YStack width={16} height={16} backgroundColor="$orange3" borderRadius="$2" />
+                      <Text fontSize="$3" color="$gray11">
+                        {t('exam.marked', 'معلّم')}
+                      </Text>
+                    </XStack>
+                    <XStack alignItems="center" gap="$2" direction={isRTL ? 'rtl' : 'ltr'}>
+                      <YStack width={16} height={16} backgroundColor="$gray3" borderRadius="$2" />
+                      <Text fontSize="$3" color="$gray11">
+                        {t('exam.unanswered', 'لم تتم الإجابة')}
+                      </Text>
+                    </XStack>
+                  </YStack>
+                </Card>
+              </YStack>
+            </ScrollView>
+          </YStack>
+        </Sheet.Frame>
+      </Sheet>
     </YStack>
   )
 }

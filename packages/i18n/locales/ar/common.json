@@ -261,6 +261,9 @@
     "marked": "معلّم",
     "flagQuestion": "تعليم السؤال",
     "unflagQuestion": "إزالة التعليم",
-    "noQuestions": "لا توجد أسئلة في هذا الامتحان"
+    "noQuestions": "لا توجد أسئلة في هذا الامتحان",
+    "questionList": "قائمة الأسئلة",
+    "reviewMarked": "مراجعة المعلمة",
+    "jumpToQuestion": "الانتقال إلى السؤال"
   }
 }
