@@ -167,6 +167,7 @@
     "limitReached": "لقد وصلت إلى الحد الأقصى من المستندات هذا الشهر",
     "uploadNotAvailable": "رفع غير متاح",
     "fileTooLarge": "حجم الملف كبير جداً. الحد الأقصى هو 10 ميجابايت",
+    "invalidFileType": "نوع الملف غير مدعوم. يرجى رفع PDF أو DOCX أو صورة",
     "uploadError": "خطأ في الرفع",
     "uploadSuccess": "تم الرفع بنجاح",
     "uploadSuccessMessage": "تم رفع {{fileName}} بنجاح. جاري المعالجة...",
@@ -180,6 +181,10 @@
     "deleteFailed": "فشل حذف المستند",
     "noDocuments": "لا توجد مستندات",
     "noDocumentsMessage": "ابدأ برفع مستنداتك الدراسية لإنشاء امتحانات مخصصة",
+    "dragAndDrop": "اسحب وأفلت المستند هنا",
+    "dropHere": "اسحب الملف هنا...",
+    "orClickToBrowse": "أو انقر للتصفح",
+    "supportedFormats": "PDF، DOCX، DOC، JPG، PNG (حتى 10 ميجابايت)",
     "status": {
       "pending": "قيد الانتظار",
       "processing": "جار المعالجة",
