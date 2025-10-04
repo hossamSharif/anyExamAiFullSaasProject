@@ -350,7 +350,7 @@ Can work SIMULTANEOUSLY with Track A
   - RTL modal layout
 
 **Day 4:**
-- [ ] Story 2.7: Search & Filter Arabic (1.5d)
+- [x] Story 2.7: Search & Filter Arabic (1.5d)
   - Arabic search with debounce
   - Filters in Arabic
   - Active filter chips
@@ -366,7 +366,7 @@ Dependencies: 2.3 (Vector search), 1.5.4 (Usage tracking)
 ```
 
 **Day 1-1.5:**
-- [ ] Story 2.8: Exam Configuration Arabic (1.5d)
+- [x] Story 2.8: Exam Configuration Arabic (1.5d)
   - Question count slider (Arabic numerals option)
   - Difficulty selector in Arabic
   - Free tier: max 10 questions

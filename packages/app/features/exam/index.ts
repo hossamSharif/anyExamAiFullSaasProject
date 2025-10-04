@@ -1,0 +1,1 @@
+export { ExamConfigScreen } from './ExamConfigScreen'
