@@ -10,9 +10,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Alert } from 'react-native'
-import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet, Dialog } from '@anyexam/ui'
+import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet, Dialog, Switch } from '@anyexam/ui'
 import { useRouter } from 'solito/router'
-import { ArrowLeft, ArrowRight, Flag, Check, List, CloudUpload, AlertCircle } from '@tamagui/lucide-icons'
+import { ArrowLeft, ArrowRight, Flag, Check, List, CloudUpload, AlertCircle, X, CheckCircle2, XCircle } from '@tamagui/lucide-icons'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { supabase } from '@anyexam/api'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -53,6 +53,9 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
   const [attemptId, setAttemptId] = useState<string | null>(null)
   const [showSubmitDialog, setShowSubmitDialog] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [immediateFeedback, setImmediateFeedback] = useState(false)
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false)
 
   const { user } = useAuth()
 
@@ -204,6 +207,17 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
     return userAnswers[currentQuestion.id]?.answer || ''
   }
 
+  // Check if answer is correct (for immediate feedback)
+  const checkAnswer = (answer: string): boolean => {
+    if (!currentQuestion) return false
+
+    // Normalize answers for comparison
+    const normalizedAnswer = answer.toLowerCase().trim()
+    const normalizedCorrect = currentQuestion.correct_answer.toLowerCase().trim()
+
+    return normalizedAnswer === normalizedCorrect
+  }
+
   // Update answer
   const updateAnswer = (answer: string) => {
     if (!currentQuestion) return
@@ -216,6 +230,20 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
         isFlagged: prev[currentQuestion.id]?.isFlagged || false,
       },
     }))
+
+    // Show immediate feedback if enabled (Story 4.8)
+    if (immediateFeedback) {
+      const isCorrect = checkAnswer(answer)
+      setIsAnswerCorrect(isCorrect)
+      setShowFeedback(true)
+
+      // Haptic feedback
+      if (Platform.OS !== 'web') {
+        import('react-native-haptic-feedback').then((haptic) => {
+          haptic.default.trigger(isCorrect ? 'notificationSuccess' : 'notificationError')
+        })
+      }
+    }
   }
 
   // Toggle flag
@@ -236,18 +264,21 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
   const goToNextQuestion = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex((prev) => prev + 1)
+      setShowFeedback(false) // Reset feedback for next question
     }
   }
 
   const goToPreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1)
+      setShowFeedback(false) // Reset feedback for previous question
     }
   }
 
   const jumpToQuestion = (index: number) => {
     setCurrentQuestionIndex(index)
     setShowQuestionList(false)
+    setShowFeedback(false) // Reset feedback when jumping
   }
 
   const getQuestionStatus = (questionId: string): 'answered' | 'flagged' | 'unanswered' => {
@@ -467,6 +498,37 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
         </XStack>
       </YStack>
 
+      {/* Immediate Feedback Toggle (Story 4.8) */}
+      <XStack
+        paddingHorizontal="$4"
+        paddingVertical="$3"
+        alignItems="center"
+        justifyContent="space-between"
+        backgroundColor="$backgroundHover"
+        borderBottomWidth={1}
+        borderBottomColor="$borderColor"
+        direction={isRTL ? 'rtl' : 'ltr'}
+      >
+        <YStack gap="$1">
+          <Text fontSize="$3" fontWeight="600" color="$gray12">
+            {t('exam.immediateFeedback', 'ملاحظات فورية')}
+          </Text>
+          <Text fontSize="$2" color="$gray10">
+            {t('exam.immediateFeedbackDesc', 'إظهار الإجابة الصحيحة فوراً')}
+          </Text>
+        </YStack>
+        <Switch
+          size="$3"
+          checked={immediateFeedback}
+          onCheckedChange={(checked) => {
+            setImmediateFeedback(checked)
+            setShowFeedback(false) // Reset feedback when toggling
+          }}
+        >
+          <Switch.Thumb animation="quick" />
+        </Switch>
+      </XStack>
+
       {/* Question Content */}
       <GestureDetector gesture={swipeGesture}>
         <ScrollView flex={1}>
@@ -628,6 +690,118 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
                 </Button>
               </XStack>
             </YStack>
+          )}
+
+          {/* Immediate Feedback Display (Story 4.8) */}
+          {showFeedback && immediateFeedback && currentQuestion && (
+            <Card
+              padding="$5"
+              backgroundColor={isAnswerCorrect ? '$green2' : '$red2'}
+              borderColor={isAnswerCorrect ? '$green7' : '$red7'}
+              borderWidth={2}
+              animation="quick"
+              enterStyle={{
+                opacity: 0,
+                scale: 0.9,
+              }}
+            >
+              <YStack gap="$4">
+                {/* Feedback Header */}
+                <XStack alignItems="center" gap="$3" direction={isRTL ? 'rtl' : 'ltr'}>
+                  {isAnswerCorrect ? (
+                    <CheckCircle2 size={32} color="$green10" />
+                  ) : (
+                    <XCircle size={32} color="$red10" />
+                  )}
+                  <YStack flex={1}>
+                    <Text
+                      fontSize="$6"
+                      fontWeight="700"
+                      color={isAnswerCorrect ? '$green11' : '$red11'}
+                      textAlign={isRTL ? 'right' : 'left'}
+                    >
+                      {isAnswerCorrect
+                        ? t('exam.wellDone', 'أحسنت!')
+                        : t('exam.tryAgain', 'حاول مرة أخرى')}
+                    </Text>
+                    <Text
+                      fontSize="$3"
+                      color={isAnswerCorrect ? '$green10' : '$red10'}
+                      textAlign={isRTL ? 'right' : 'left'}
+                    >
+                      {isAnswerCorrect
+                        ? t('exam.correct', 'صحيح')
+                        : t('exam.incorrect', 'خطأ')}
+                    </Text>
+                  </YStack>
+                </XStack>
+
+                {/* Show correct answer if wrong */}
+                {!isAnswerCorrect && (
+                  <YStack gap="$2">
+                    <Text
+                      fontSize="$3"
+                      fontWeight="600"
+                      color="$gray11"
+                      textAlign={isRTL ? 'right' : 'left'}
+                    >
+                      {t('exam.correctAnswer', 'الإجابة الصحيحة')}:
+                    </Text>
+                    <Card padding="$3" backgroundColor="$backgroundHover">
+                      <Text
+                        fontSize="$4"
+                        color="$gray12"
+                        textAlign={isRTL ? 'right' : 'left'}
+                      >
+                        {currentQuestion.question_type === 'true_false'
+                          ? currentQuestion.correct_answer === 'true'
+                            ? t('exam.true', 'صح')
+                            : t('exam.false', 'خطأ')
+                          : currentQuestion.question_type === 'multiple_choice'
+                          ? currentQuestion.options?.find(
+                              (opt) => opt.value === currentQuestion.correct_answer
+                            )?.label
+                          : currentQuestion.correct_answer}
+                      </Text>
+                    </Card>
+                  </YStack>
+                )}
+
+                {/* Explanation */}
+                {currentQuestion.explanation && (
+                  <YStack gap="$2">
+                    <Text
+                      fontSize="$3"
+                      fontWeight="600"
+                      color="$gray11"
+                      textAlign={isRTL ? 'right' : 'left'}
+                    >
+                      {t('exam.explanation', 'التوضيح')}:
+                    </Text>
+                    <Text
+                      fontSize="$4"
+                      color="$gray12"
+                      textAlign={isRTL ? 'right' : 'left'}
+                      lineHeight="$5"
+                    >
+                      {currentQuestion.explanation}
+                    </Text>
+                  </YStack>
+                )}
+
+                {/* Next Question Button */}
+                {!isLastQuestion && (
+                  <Button
+                    size="$5"
+                    theme="active"
+                    onPress={goToNextQuestion}
+                    iconAfter={isRTL ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
+                  >
+                    {t('exam.nextQuestion', 'السؤال التالي')}
+                  </Button>
+                )}
+              </YStack>
+            </Card>
           )}
           </YStack>
         </ScrollView>

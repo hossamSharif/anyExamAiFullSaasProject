@@ -580,7 +580,7 @@ Can work SIMULTANEOUSLY with Track A
   - Store with language='ar'
 
 **Day 3:**
-- [ ] Story 4.8: Immediate Feedback Arabic (1d)
+- [x] Story 4.8: Immediate Feedback Arabic (1d)
   - Toggle in Arabic
   - Visual + haptic feedback
   - Correct answer in Arabic

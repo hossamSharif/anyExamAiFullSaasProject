@@ -273,6 +273,16 @@
     "submitWarning": "لقد أجبت على {{answered}} من {{total}} سؤال",
     "submitAnyway": "تسليم على أي حال",
     "reviewAnswers": "مراجعة الإجابات",
-    "submitting": "جاري التسليم..."
+    "submitting": "جاري التسليم...",
+    "immediateFeedback": "ملاحظات فورية",
+    "immediateFeedbackDesc": "إظهار الإجابة الصحيحة فوراً",
+    "correct": "صحيح",
+    "incorrect": "خطأ",
+    "correctAnswer": "الإجابة الصحيحة",
+    "explanation": "التوضيح",
+    "nextQuestion": "السؤال التالي",
+    "wellDone": "أحسنت!",
+    "tryAgain": "حاول مرة أخرى",
+    "yourAnswerWas": "إجابتك كانت"
   }
 }
