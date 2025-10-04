@@ -86,7 +86,8 @@ async function generateBatchEmbeddings(
 async function processBatch(
   supabaseClient: any,
   limit: number,
-  offset: number
+  offset: number,
+  table: string = 'content_chunks'
 ): Promise<ProcessingResult> {
   const result: ProcessingResult = {
     success: 0,
@@ -98,9 +99,9 @@ async function processBatch(
   }
 
   try {
-    // Fetch chunks without embeddings
+    // Fetch chunks without embeddings from specified table
     const { data: chunks, error: fetchError } = await supabaseClient
-      .from('content_chunks')
+      .from(table)
       .select('id, content')
       .is('embedding', null)
       .range(offset, offset + limit - 1)
@@ -137,7 +138,7 @@ async function processBatch(
 
       try {
         const { error: updateError } = await supabaseClient
-          .from('content_chunks')
+          .from(table)
           .update({ embedding: JSON.stringify(embedding) })
           .eq('id', chunk.id)
 
@@ -252,11 +253,17 @@ serve(async (req) => {
       text,
       limit = BATCH_SIZE,
       offset = 0,
+      table = 'content_chunks', // Allow specifying table (content_chunks or document_chunks)
     } = await req.json()
 
     // Validate mode
     if (mode !== 'batch' && mode !== 'single' && mode !== 'query') {
       return errorResponse('mode must be "batch", "single", or "query"')
+    }
+
+    // Validate table parameter
+    if (table !== 'content_chunks' && table !== 'document_chunks') {
+      return errorResponse('table must be "content_chunks" or "document_chunks"')
     }
 
     // Validate single mode parameters
@@ -298,7 +305,7 @@ serve(async (req) => {
     if (mode === 'single') {
       result = await processSingle(supabaseClient, chunkId)
     } else {
-      result = await processBatch(supabaseClient, limit, offset)
+      result = await processBatch(supabaseClient, limit, offset, table)
     }
 
     // Return result

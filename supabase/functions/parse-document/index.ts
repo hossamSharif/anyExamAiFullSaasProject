@@ -289,6 +289,24 @@ serve(async (req) => {
     // Store chunks
     await storeChunks(documentId, document.user_id, chunks);
 
+    // Trigger embedding generation asynchronously for document chunks
+    // Don't await to avoid blocking - embeddings will be generated in background
+    fetch(`${SUPABASE_URL}/functions/v1/generate-embeddings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      body: JSON.stringify({
+        mode: 'batch',
+        table: 'document_chunks',
+        limit: 100,
+        offset: 0,
+      }),
+    }).catch((err) => {
+      console.error('Error triggering embedding generation:', err);
+    });
+
     // Update status to completed
     await updateDocumentStatus(documentId, 'completed');
 
