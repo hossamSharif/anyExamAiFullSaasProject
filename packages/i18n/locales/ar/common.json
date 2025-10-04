@@ -154,5 +154,48 @@
     "autoRedirect": "إعادة التوجيه التلقائي في",
     "seconds": "ثواني",
     "mobileNote": "إذا لم يتم فتح التطبيق تلقائياً، انقر على الزر أعلاه."
+  },
+  "documents": {
+    "title": "مستنداتي",
+    "uploadDocument": "رفع مستند",
+    "selectDocument": "اختر مستنداً",
+    "uploading": "جار الرفع...",
+    "processing": "جار المعالجة...",
+    "completed": "اكتمل",
+    "failed": "فشل",
+    "proRequired": "رفع المستندات متاح فقط للمشتركين في النسخة الاحترافية",
+    "limitReached": "لقد وصلت إلى الحد الأقصى من المستندات هذا الشهر",
+    "uploadNotAvailable": "رفع غير متاح",
+    "fileTooLarge": "حجم الملف كبير جداً. الحد الأقصى هو 10 ميجابايت",
+    "uploadError": "خطأ في الرفع",
+    "uploadSuccess": "تم الرفع بنجاح",
+    "uploadSuccessMessage": "تم رفع {{fileName}} بنجاح. جاري المعالجة...",
+    "uploadFailed": "فشل رفع المستند. يرجى المحاولة مرة أخرى",
+    "uploadingStatus": "جار الرفع... {{progress}}%",
+    "processingStatus": "جار المعالجة...",
+    "completedStatus": "اكتمل!",
+    "errorStatus": "خطأ: {{error}}",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا المستند؟",
+    "deleteSuccess": "تم حذف المستند بنجاح",
+    "deleteFailed": "فشل حذف المستند",
+    "noDocuments": "لا توجد مستندات",
+    "noDocumentsMessage": "ابدأ برفع مستنداتك الدراسية لإنشاء امتحانات مخصصة",
+    "status": {
+      "pending": "قيد الانتظار",
+      "processing": "جار المعالجة",
+      "completed": "مكتمل",
+      "failed": "فشل"
+    },
+    "fileTypes": {
+      "pdf": "PDF",
+      "docx": "Word",
+      "doc": "Word",
+      "jpg": "صورة",
+      "jpeg": "صورة",
+      "png": "صورة"
+    }
+  },
+  "common": {
+    "ok": "حسناً"
   }
 }
