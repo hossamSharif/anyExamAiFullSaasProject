@@ -94,6 +94,17 @@ export default function ProfileScreen() {
 
       <Separator />
 
+      {/* Subscription Management Button */}
+      <Button
+        variant="primary"
+        size="md"
+        onPress={() => (router as any).navigate('subscription')}
+      >
+        {t('auth.errors.checkingAuth') === t('auth.errors.checkingAuth')
+          ? 'إدارة الاشتراك'
+          : 'Manage Subscription'}
+      </Button>
+
       {/* Logout Button */}
       <Button
         variant="outline"

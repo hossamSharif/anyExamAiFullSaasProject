@@ -32,6 +32,7 @@ import HomeScreen from './screens/HomeScreen';
 import BrowseScreen from './screens/BrowseScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import SubscriptionScreen from './screens/SubscriptionScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
@@ -177,6 +178,9 @@ export default function App() {
 
               {/* Main App (Protected with Bottom Tabs) */}
               <Stack.Screen name="index" component={TabNavigator} />
+
+              {/* Additional Screens */}
+              <Stack.Screen name="subscription" component={SubscriptionScreen} />
             </Stack.Navigator>
             <StatusBar style="auto" />
           </DeepLinkHandler>

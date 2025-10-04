@@ -267,7 +267,7 @@ Some sequential work required
   - Upgrade prompts
 
 **Day 5 (Afternoon):**
-- [ ] Story 1.5.10: Subscription Management Screen (1.5d)
+- [x] Story 1.5.10: Subscription Management Screen (1.5d)
   - Display current plan in Arabic
   - Usage statistics
   - Billing cycle dates (Arabic format)

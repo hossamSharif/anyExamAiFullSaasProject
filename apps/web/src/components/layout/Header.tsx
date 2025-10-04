@@ -145,6 +145,19 @@ export function Header() {
                           <Text fontSize="$3">{t('navigation.profile')}</Text>
                         </Button>
                       </Link>
+                      <Link href="/subscription" style={{ textDecoration: 'none' }}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          fullWidth
+                          justifyContent="flex-start"
+                          onPress={() => setMenuOpen(false)}
+                        >
+                          <Text fontSize="$3">
+                            {t('i18n.language') === 'ar' ? 'الاشتراك' : 'Subscription'}
+                          </Text>
+                        </Button>
+                      </Link>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -247,6 +260,17 @@ export function Header() {
               onPress={() => setMenuOpen(false)}
             >
               {t('navigation.profile')}
+            </Button>
+          </Link>
+          <Link href="/subscription" style={{ textDecoration: 'none' }}>
+            <Button
+              variant="ghost"
+              size="md"
+              fullWidth
+              justifyContent="flex-start"
+              onPress={() => setMenuOpen(false)}
+            >
+              {t('i18n.language') === 'ar' ? 'الاشتراك' : 'Subscription'}
             </Button>
           </Link>
           <Button
