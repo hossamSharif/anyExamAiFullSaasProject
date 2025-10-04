@@ -3,6 +3,7 @@
 import { YStack, XStack, Heading, ButtonComponent as Button, TextComponent as Text, LanguageSwitcherConnected } from '@anyexamai/ui';
 import { useTranslation } from '@anyexamai/i18n';
 import { useAuth, signOut } from '@anyexamai/api';
+import { UsageWidget } from '@anyexamai/app';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -16,6 +17,10 @@ export function Header() {
   const handleLogout = async () => {
     await signOut();
     router.push('/login');
+  };
+
+  const handleUpgrade = () => {
+    router.push('/checkout?source=web');
   };
 
   return (
@@ -57,6 +62,13 @@ export function Header() {
             <>
               {/* Desktop Navigation */}
               <XStack gap="$4" display={['none', 'none', 'flex']} alignItems="center">
+                {/* Usage Widget */}
+                <UsageWidget
+                  mode="compact"
+                  showUpgradeButton={true}
+                  onUpgradePress={handleUpgrade}
+                />
+
                 <Link href="/" style={{ textDecoration: 'none' }}>
                   <Text
                     fontSize="$4"
@@ -186,6 +198,13 @@ export function Header() {
           borderTopColor="$borderColor"
           marginTop="$4"
         >
+          {/* Usage Widget in Mobile Menu */}
+          <UsageWidget
+            mode="compact"
+            showUpgradeButton={true}
+            onUpgradePress={handleUpgrade}
+          />
+
           <Link href="/" style={{ textDecoration: 'none' }}>
             <Button
               variant="ghost"

@@ -1,18 +1,54 @@
-import { YStack, Text, Heading, Paragraph, Button, useTheme } from '@anyexamai/ui';
+import { YStack, XStack, Text, Heading, Paragraph, Button, useTheme } from '@anyexamai/ui';
+import { UsageWidget } from '@anyexamai/app';
+import * as WebBrowser from 'expo-web-browser';
+import { Alert } from 'react-native';
+import { useTranslation } from '@anyexamai/i18n';
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const { t } = useTranslation();
+
+  const handleUpgrade = async () => {
+    try {
+      // Open web checkout page in in-app browser
+      const checkoutUrl = `${process.env.EXPO_PUBLIC_WEB_URL}/checkout?source=mobile`;
+      await WebBrowser.openBrowserAsync(checkoutUrl, {
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+      });
+    } catch (error) {
+      console.error('Error opening checkout:', error);
+      Alert.alert(t('error'), 'Failed to open checkout page');
+    }
+  };
 
   return (
     <YStack
       flex={1}
       backgroundColor="$background"
-      alignItems="center"
-      justifyContent="center"
-      padding="$6"
+      padding="$4"
     >
-      {/* Arabic heading with Cairo font */}
-      <Heading
+      {/* Usage Widget in Header */}
+      <XStack
+        justifyContent="flex-start"
+        paddingTop="$6"
+        paddingBottom="$4"
+      >
+        <UsageWidget
+          mode="compact"
+          showUpgradeButton={true}
+          onUpgradePress={handleUpgrade}
+        />
+      </XStack>
+
+      {/* Main Content */}
+      <YStack
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+        paddingHorizontal="$2"
+      >
+        {/* Arabic heading with Cairo font */}
+        <Heading
         fontFamily="$heading"
         fontSize="$9"
         fontWeight="700"
@@ -62,16 +98,17 @@ export default function HomeScreen() {
         </Text>
       </Button>
 
-      {/* Status indicators */}
-      <Text fontSize="$3" color="$success" marginTop="$2">
-        RTL Support Enabled ✓
-      </Text>
-      <Text fontSize="$3" color="$success" marginTop="$1">
-        Tamagui Configured ✓
-      </Text>
-      <Text fontSize="$3" color="$success" marginTop="$1">
-        Arabic Fonts Loaded ✓
-      </Text>
+        {/* Status indicators */}
+        <Text fontSize="$3" color="$success" marginTop="$2">
+          RTL Support Enabled ✓
+        </Text>
+        <Text fontSize="$3" color="$success" marginTop="$1">
+          Tamagui Configured ✓
+        </Text>
+        <Text fontSize="$3" color="$success" marginTop="$1">
+          Arabic Fonts Loaded ✓
+        </Text>
+      </YStack>
     </YStack>
   );
 }

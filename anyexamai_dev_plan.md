@@ -260,7 +260,7 @@ Some sequential work required
   - Arabic success/error messages
 
 **Day 5 (Morning):**
-- [ ] Story 1.5.9: Usage Widget Arabic (1.5d)
+- [x] Story 1.5.9: Usage Widget Arabic (1.5d)
   - Progress bar component
   - "٣/٥ امتحانات" display
   - RTL progress indicators
