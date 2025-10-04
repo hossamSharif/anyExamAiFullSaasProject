@@ -311,7 +311,7 @@ Dependencies: 0.3 (Database schema)
   - Store in pgvector
 
 **Day 4 (Afternoon):**
-- [ ] Story 2.3: Vector Similarity Search (1d)
+- [x] Story 2.3: Vector Similarity Search (1d)
   - Similarity search function
   - HNSW index setup
   - Arabic subject/topic filters

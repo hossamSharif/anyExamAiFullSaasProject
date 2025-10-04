@@ -249,18 +249,24 @@ serve(async (req) => {
     const {
       mode = 'batch',
       chunkId,
+      text,
       limit = BATCH_SIZE,
       offset = 0,
     } = await req.json()
 
     // Validate mode
-    if (mode !== 'batch' && mode !== 'single') {
-      return errorResponse('mode must be either "batch" or "single"')
+    if (mode !== 'batch' && mode !== 'single' && mode !== 'query') {
+      return errorResponse('mode must be "batch", "single", or "query"')
     }
 
     // Validate single mode parameters
     if (mode === 'single' && !chunkId) {
       return errorResponse('chunkId is required for single mode')
+    }
+
+    // Validate query mode parameters
+    if (mode === 'query' && !text) {
+      return errorResponse('text is required for query mode')
     }
 
     // Validate batch mode parameters
@@ -274,6 +280,19 @@ serve(async (req) => {
     }
 
     // Process based on mode
+    if (mode === 'query') {
+      // Generate embedding for query text and return it directly
+      const embeddingResponse = await generateBatchEmbeddings([text])
+      const embedding = embeddingResponse.data[0].embedding
+
+      return jsonResponse({
+        mode,
+        embedding,
+        tokens_used: embeddingResponse.usage.total_tokens,
+        cost_estimate: (embeddingResponse.usage.total_tokens / 1000) * 0.00002,
+      })
+    }
+
     let result: ProcessingResult
 
     if (mode === 'single') {
