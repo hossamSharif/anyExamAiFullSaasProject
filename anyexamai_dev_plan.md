@@ -343,7 +343,7 @@ Can work SIMULTANEOUSLY with Track A
   - RTL layout
 
 **Day 3:**
-- [ ] Story 2.6: Topic Refinement Arabic (1d)
+- [x] Story 2.6: Topic Refinement Arabic (1d)
   - Detection of broad subjects
   - Bottom sheet with subtopics in Arabic
   - Multi-select with Arabic chips

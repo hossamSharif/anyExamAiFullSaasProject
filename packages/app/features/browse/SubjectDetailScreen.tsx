@@ -11,6 +11,7 @@ import { YStack, XStack, Button, Text, ScrollView, Spinner } from '@anyexam/ui'
 import { useTopicsBySubject } from '@anyexam/api'
 import { useRouter } from 'solito/router'
 import { TopicChip } from './TopicChip'
+import { TopicRefinementSheet, isBroadTopic, getSubtopics } from './TopicRefinementSheet'
 import { ArrowLeft, ArrowRight } from '@tamagui/lucide-icons'
 
 interface SubjectDetailScreenProps {
@@ -22,14 +23,34 @@ export function SubjectDetailScreen({ subject }: SubjectDetailScreenProps) {
   const router = useRouter()
   const isRTL = i18n.language === 'ar'
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
+  const [refinementOpen, setRefinementOpen] = useState(false)
+  const [currentBroadTopic, setCurrentBroadTopic] = useState<string>('')
 
   // Fetch topics for this subject
   const { data: topics, isLoading, error } = useTopicsBySubject(subject, i18n.language)
 
   const toggleTopic = (topic: string) => {
-    setSelectedTopics((prev) =>
-      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
-    )
+    // Check if this is a broad topic that needs refinement
+    if (!selectedTopics.includes(topic) && isBroadTopic(topic)) {
+      setCurrentBroadTopic(topic)
+      setRefinementOpen(true)
+    } else {
+      setSelectedTopics((prev) =>
+        prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
+      )
+    }
+  }
+
+  const handleRefinementConfirm = (subtopics: string[]) => {
+    // Add the selected subtopics instead of the broad topic
+    setSelectedTopics((prev) => [...prev, ...subtopics])
+    setRefinementOpen(false)
+  }
+
+  const handleRefinementSkip = () => {
+    // Add the broad topic without refinement
+    setSelectedTopics((prev) => [...prev, currentBroadTopic])
+    setRefinementOpen(false)
   }
 
   const handleCreateExam = () => {
@@ -170,6 +191,17 @@ export function SubjectDetailScreen({ subject }: SubjectDetailScreenProps) {
           </Button>
         </YStack>
       )}
+
+      {/* Topic Refinement Sheet */}
+      <TopicRefinementSheet
+        open={refinementOpen}
+        onOpenChange={setRefinementOpen}
+        broadTopic={currentBroadTopic}
+        subtopics={getSubtopics(currentBroadTopic)}
+        onConfirm={handleRefinementConfirm}
+        onSkip={handleRefinementSkip}
+        isRTL={isRTL}
+      />
     </YStack>
   )
 }
