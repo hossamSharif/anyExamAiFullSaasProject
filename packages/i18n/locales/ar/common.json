@@ -241,6 +241,26 @@
     "proOnly": "احترافي",
     "limitReached": "لقد وصلت إلى الحد الأقصى للامتحانات هذا الشهر",
     "upgradeRequired": "قم بالترقية للنسخة الاحترافية لإنشاء المزيد",
-    "notFound": "الامتحان غير موجود"
+    "notFound": "الامتحان غير موجود",
+    "question": "سؤال",
+    "of": "من",
+    "selectAnswer": "اختر الإجابة",
+    "writeAnswer": "اكتب إجابتك",
+    "yourAnswer": "إجابتك",
+    "true": "صح",
+    "false": "خطأ",
+    "multipleChoice": "اختيار متعدد",
+    "shortAnswer": "إجابة قصيرة",
+    "trueFalse": "صح أو خطأ",
+    "previous": "السابق",
+    "nextQuestion": "السؤال التالي",
+    "submit": "تسليم الامتحان",
+    "progress": "التقدم",
+    "answered": "تمت الإجابة",
+    "unanswered": "لم تتم الإجابة",
+    "marked": "معلّم",
+    "flagQuestion": "تعليم السؤال",
+    "unflagQuestion": "إزالة التعليم",
+    "noQuestions": "لا توجد أسئلة في هذا الامتحان"
   }
 }
