@@ -284,5 +284,36 @@
     "wellDone": "أحسنت!",
     "tryAgain": "حاول مرة أخرى",
     "yourAnswerWas": "إجابتك كانت"
+  },
+  "results": {
+    "title": "نتائج الامتحان",
+    "yourScore": "نتيجتك",
+    "outOf": "من",
+    "percentage": "النسبة المئوية",
+    "passed": "نجح",
+    "failed": "رسب",
+    "congratulations": "تهانينا!",
+    "betterLuckNextTime": "حظ أفضل المرة القادمة",
+    "grades": {
+      "excellent": "ممتاز",
+      "veryGood": "جيد جداً",
+      "good": "جيد",
+      "acceptable": "مقبول",
+      "weak": "ضعيف",
+      "fail": "راسب"
+    },
+    "performance": "الأداء",
+    "timeTaken": "الوقت المستغرق",
+    "correctAnswers": "إجابات صحيحة",
+    "wrongAnswers": "إجابات خاطئة",
+    "skippedQuestions": "أسئلة متجاوزة",
+    "viewDetails": "عرض التفاصيل",
+    "reviewAnswers": "مراجعة الإجابات",
+    "retakeExam": "إعادة الامتحان",
+    "backToHome": "العودة للرئيسية",
+    "shareResults": "مشاركة النتائج",
+    "downloadReport": "تحميل التقرير",
+    "scoringInProgress": "جاري حساب النتيجة...",
+    "pleaseWait": "يرجى الانتظار..."
   }
 }

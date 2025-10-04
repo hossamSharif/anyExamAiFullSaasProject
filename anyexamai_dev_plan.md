@@ -596,7 +596,7 @@ Dependencies: 4.7 (Scoring function)
 ```
 
 **Day 1:**
-- [ ] Story 4.9: Score Reveal Arabic (1d)
+- [x] Story 4.9: Score Reveal Arabic (1d)
   - Animated counting
   - Confetti for passing
   - Arabic percentage display
