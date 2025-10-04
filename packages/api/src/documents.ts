@@ -107,6 +107,23 @@ export async function uploadDocument(
       throw dbError || new Error('Failed to create document record');
     }
 
+    // Trigger document parsing asynchronously
+    // Note: We don't await this to avoid blocking the upload response
+    supabase.functions
+      .invoke('parse-document', {
+        body: { documentId: document.id },
+      })
+      .then(({ data, error: parseError }) => {
+        if (parseError) {
+          console.error('Error triggering document parsing:', parseError);
+        } else {
+          console.log('Document parsing triggered:', data);
+        }
+      })
+      .catch((err) => {
+        console.error('Error invoking parse-document function:', err);
+      });
+
     return {
       id: document.id,
       fileName: document.file_name,
