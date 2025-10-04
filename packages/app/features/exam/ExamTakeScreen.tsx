@@ -9,10 +9,10 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
-import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet } from '@anyexam/ui'
+import { Platform, Alert } from 'react-native'
+import { YStack, XStack, Button, Text, Card, ScrollView, Spinner, Input, RadioGroup, Sheet, Dialog } from '@anyexam/ui'
 import { useRouter } from 'solito/router'
-import { ArrowLeft, ArrowRight, Flag, Check, List, CloudUpload } from '@tamagui/lucide-icons'
+import { ArrowLeft, ArrowRight, Flag, Check, List, CloudUpload, AlertCircle } from '@tamagui/lucide-icons'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { supabase } from '@anyexam/api'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -51,6 +51,8 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
   const [isSaving, setIsSaving] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [attemptId, setAttemptId] = useState<string | null>(null)
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { user } = useAuth()
 
@@ -253,6 +255,40 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
     if (answer?.isFlagged) return 'flagged'
     if (answer?.answer) return 'answered'
     return 'unanswered'
+  }
+
+  // Count answered questions
+  const answeredCount = questions?.filter((q) => userAnswers[q.id]?.answer).length || 0
+
+  // Submit exam (Story 4.6)
+  const handleSubmitExam = async () => {
+    if (!attemptId) return
+
+    setIsSubmitting(true)
+
+    try {
+      // Calculate time spent
+      const now = new Date()
+      const timeSpent = questions?.[0] ? Math.floor((now.getTime() - new Date(questions[0].created_at).getTime()) / 1000) : 0
+
+      // Update attempt status
+      const { error } = await supabase
+        .from('attempts')
+        .update({
+          status: 'submitted',
+          time_submitted: now.toISOString(),
+          time_spent_seconds: timeSpent,
+        })
+        .eq('id', attemptId)
+
+      if (error) throw error
+
+      // Navigate to scoring screen (Story 4.7)
+      router.push(`/exam/results/${attemptId}`)
+    } catch (error) {
+      console.error('Failed to submit exam:', error)
+      setIsSubmitting(false)
+    }
   }
 
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
@@ -633,13 +669,11 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
               flex={1}
               size="$5"
               theme="active"
-              onPress={() => {
-                // Navigate to submission screen (Story 4.6)
-                console.log('Submit exam')
-              }}
+              onPress={() => setShowSubmitDialog(true)}
               icon={<Check size={20} />}
+              disabled={isSubmitting}
             >
-              {t('exam.submit', 'تسليم الامتحان')}
+              {isSubmitting ? t('exam.submitting', 'جاري التسليم...') : t('exam.submit', 'تسليم الامتحان')}
             </Button>
           )}
         </XStack>
@@ -777,6 +811,64 @@ export function ExamTakeScreen({ examId }: ExamTakeScreenProps) {
           </YStack>
         </Sheet.Frame>
       </Sheet>
+
+      {/* Submit Confirmation Dialog (Story 4.6) */}
+      <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <Dialog.Portal>
+          <Dialog.Overlay />
+          <Dialog.Content
+            padding="$5"
+            gap="$4"
+            backgroundColor="$background"
+            borderRadius="$4"
+            maxWidth={400}
+          >
+            <YStack gap="$3">
+              <XStack alignItems="center" gap="$3" direction={isRTL ? 'rtl' : 'ltr'}>
+                <AlertCircle size={24} color="$orange10" />
+                <Dialog.Title fontSize="$6" fontWeight="700" color="$gray12">
+                  {t('exam.submitConfirm', 'تأكيد التسليم')}
+                </Dialog.Title>
+              </XStack>
+
+              <Dialog.Description fontSize="$4" color="$gray11" textAlign={isRTL ? 'right' : 'left'}>
+                {t('exam.submitMessage', 'هل أنت متأكد من تسليم الامتحان؟')}
+              </Dialog.Description>
+
+              {answeredCount < totalQuestions && (
+                <Card padding="$3" backgroundColor="$orange2" borderColor="$orange6">
+                  <Text fontSize="$3" color="$orange11" textAlign={isRTL ? 'right' : 'left'}>
+                    {t('exam.submitWarning', {
+                      answered: formatNumber(answeredCount),
+                      total: formatNumber(totalQuestions),
+                    })}
+                  </Text>
+                </Card>
+              )}
+            </YStack>
+
+            <XStack gap="$3" justifyContent="flex-end" direction={isRTL ? 'rtl' : 'ltr'}>
+              <Dialog.Close asChild>
+                <Button chromeless>{t('exam.reviewAnswers', 'مراجعة الإجابات')}</Button>
+              </Dialog.Close>
+
+              <Button
+                theme="active"
+                onPress={() => {
+                  setShowSubmitDialog(false)
+                  handleSubmitExam()
+                }}
+                disabled={isSubmitting}
+                icon={isSubmitting ? <Spinner size="small" /> : <Check size={20} />}
+              >
+                {isSubmitting
+                  ? t('exam.submitting', 'جاري التسليم...')
+                  : t('exam.submitAnyway', 'تسليم على أي حال')}
+              </Button>
+            </XStack>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog>
     </YStack>
   )
 }

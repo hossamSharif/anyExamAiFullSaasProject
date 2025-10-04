@@ -267,6 +267,12 @@
     "jumpToQuestion": "الانتقال إلى السؤال",
     "saving": "جاري الحفظ...",
     "saved": "محفوظ",
-    "saveError": "خطأ في الحفظ"
+    "saveError": "خطأ في الحفظ",
+    "submitConfirm": "تأكيد التسليم",
+    "submitMessage": "هل أنت متأكد من تسليم الامتحان؟",
+    "submitWarning": "لقد أجبت على {{answered}} من {{total}} سؤال",
+    "submitAnyway": "تسليم على أي حال",
+    "reviewAnswers": "مراجعة الإجابات",
+    "submitting": "جاري التسليم..."
   }
 }
